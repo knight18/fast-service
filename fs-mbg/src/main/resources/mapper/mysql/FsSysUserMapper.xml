@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.x.fs.mapper.FsSysUserMapper">
-  <resultMap id="BaseResultMap" type="com.x.fs.model.FsSysUser">
+<mapper namespace="com.x.fs.mbg.mapper.FsSysUserMapper">
+  <resultMap id="BaseResultMap" type="com.x.fs.mbg.model.FsSysUser">
     <id column="USER_CODE" jdbcType="VARCHAR" property="userCode" />
     <result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
     <result column="MOBILE" jdbcType="VARCHAR" property="mobile" />
@@ -85,7 +85,7 @@
     CANCEL_DATE, GMT_CREATED, GMT_MODIFIED, CREATOR, OPERATOR, USER_STATUS, LOCK_STATUS, 
     USER_PWD, CARD_TYPE, CARD_NO, REMARK
   </sql>
-  <select id="selectByExample" parameterType="com.x.fs.model.FsSysUserExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.x.fs.mbg.model.FsSysUserExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -109,13 +109,13 @@
     delete from fs_sys_user
     where USER_CODE = #{userCode,jdbcType=VARCHAR}
   </delete>
-  <delete id="deleteByExample" parameterType="com.x.fs.model.FsSysUserExample">
+  <delete id="deleteByExample" parameterType="com.x.fs.mbg.model.FsSysUserExample">
     delete from fs_sys_user
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.x.fs.model.FsSysUser">
+  <insert id="insert" parameterType="com.x.fs.mbg.model.FsSysUser">
     insert into fs_sys_user (USER_CODE, USER_NAME, MOBILE, 
       PHONE, EMAIL, ADDRESS, 
       USER_TYPE, LAST_LOGIN_TIME, CANCEL_DATE, 
@@ -131,7 +131,7 @@
       #{userPwd,jdbcType=VARCHAR}, #{cardType,jdbcType=VARCHAR}, #{cardNo,jdbcType=VARCHAR}, 
       #{remark,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.x.fs.model.FsSysUser">
+  <insert id="insertSelective" parameterType="com.x.fs.mbg.model.FsSysUser">
     insert into fs_sys_user
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="userCode != null">
@@ -252,7 +252,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.x.fs.model.FsSysUserExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.x.fs.mbg.model.FsSysUserExample" resultType="java.lang.Long">
     select count(*) from fs_sys_user
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -348,7 +348,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.x.fs.model.FsSysUser">
+  <update id="updateByPrimaryKeySelective" parameterType="com.x.fs.mbg.model.FsSysUser">
     update fs_sys_user
     <set>
       <if test="userName != null">
@@ -408,7 +408,7 @@
     </set>
     where USER_CODE = #{userCode,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.x.fs.model.FsSysUser">
+  <update id="updateByPrimaryKey" parameterType="com.x.fs.mbg.model.FsSysUser">
     update fs_sys_user
     set USER_NAME = #{userName,jdbcType=VARCHAR},
       MOBILE = #{mobile,jdbcType=VARCHAR},

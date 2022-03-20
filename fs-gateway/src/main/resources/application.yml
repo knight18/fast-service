@@ -35,6 +35,6 @@ secure:
       - "/webjars/springfox-swagger-ui/**"
       - "/actuator/**"
       - "/mall-auth/oauth/token"
-      - "/fs-user/user/login"
+#      - "/fs-user/user/login"
 
 

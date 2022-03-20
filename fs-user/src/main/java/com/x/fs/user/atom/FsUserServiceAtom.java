@@ -1,6 +1,6 @@
 package com.x.fs.user.atom;
 
-import com.x.fs.model.FsSysUser;
+import com.x.fs.mbg.model.FsSysUser;
 
 /**
  * @author x

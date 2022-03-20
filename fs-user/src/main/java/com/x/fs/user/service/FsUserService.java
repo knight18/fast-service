@@ -1,7 +1,7 @@
 package com.x.fs.user.service;
 
-import com.x.fs.dto.RequestDTO;
-import com.x.fs.model.FsSysUser;
+import com.x.fs.common.dto.RequestDTO;
+import com.x.fs.mbg.model.FsSysUser;
 import com.x.fs.user.dto.UserInfoDTO;
 
 /**

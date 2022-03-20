@@ -37,7 +37,17 @@
     </typeHandlers>
 
     <!--插件配置 -->
-<!--    <plugins>-->
-
-<!--    </plugins>-->
+    <plugins>
+        <plugin interceptor="com.x.fs.common.mybatis.SqlLogInterceptor">
+            <property name="logOpenFlag" value="true"/>
+            <!--   logFilePath  记录的是日志所在的路径，并不少是文件名称         -->
+            <property name="logFilePath" value="C:\\ProgramFilesUser\\ProjectLog"/>
+            <!--   fileName  文件名称,不含类型         -->
+            <property name="fileName" value="MyBatislog"/>
+            <!--    每个文件的大小  单位M-->
+            <property name="fileSize" value="0.5"/>
+            <property name="showResultNum" value="100"/>
+            <property name="filterMethod" value="1"/>
+        </plugin>
+    </plugins>
 </configuration>

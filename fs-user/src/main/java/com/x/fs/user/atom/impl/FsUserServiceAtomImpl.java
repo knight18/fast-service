@@ -1,7 +1,7 @@
 package com.x.fs.user.atom.impl;
 
-import com.x.fs.mapper.FsSysUserMapper;
-import com.x.fs.model.FsSysUser;
+import com.x.fs.mbg.mapper.FsSysUserMapper;
+import com.x.fs.mbg.model.FsSysUser;
 import com.x.fs.user.atom.FsUserServiceAtom;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
