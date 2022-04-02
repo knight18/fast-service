@@ -1,6 +1,5 @@
 package com.x.fs.common.dto;
 
-
 /**
  * @author x
  */

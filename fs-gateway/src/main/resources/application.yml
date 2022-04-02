@@ -14,12 +14,12 @@ spring:
             - Path=/fs-user/**
           filters:
             - StripPrefix=1
-
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          jwk-set-uri: 'http://localhost:8201/mall-auth/rsa/publicKey' #配置RSA的公钥访问地址
+        - id: fs-cache
+          uri: lb://fs-cache
+          predicates:
+            - Path=/fs-cache/**
+          filters:
+            - StripPrefix=1
 
 secure:
   ignores:
@@ -33,8 +33,4 @@ secure:
       - "/**/*.png"
       - "/**/*.ico"
       - "/webjars/springfox-swagger-ui/**"
-      - "/actuator/**"
-      - "/mall-auth/oauth/token"
-#      - "/fs-user/user/login"
-
 

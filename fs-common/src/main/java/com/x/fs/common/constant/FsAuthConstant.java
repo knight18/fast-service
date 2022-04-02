@@ -6,7 +6,6 @@ package com.x.fs.common.constant;
  */
 public interface FsAuthConstant {
 
-
     /**
      * 认证信息Http请求头
      */

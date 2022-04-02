@@ -2,17 +2,14 @@ package com.x.fs.common.constant;
 
 /**
  * 默认常量
- *
  * @author x
  */
 public interface DefaultConstant {
-
 
     /**
      * 时间格式
      */
     String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
-
 
     /**
      * 时间格式 yyyyMMdd

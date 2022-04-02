@@ -1,13 +1,10 @@
 package com.x.fs.common.utils;
 
+/**
+ * 根据雪花算法，计算uuid
+ * @author x
+ */
 public class UniqueId {
-    private static final long START_TIME = 148320000000000L;
-    private static final int APP_HOST_ID_BITS = 13;
-    private static final int SEQUENCE_BITS  = 10;
-    private static final long MAX_APP_HOST_ID = 8191;
-    private static final long MAX = 1023L;
-    private static final long APP_HOST_ID_SHIFT = 10;
-    private static final long TIMESTAMP_LEFT_SHIFT = 23L;
     private long appHostId;
     private long lastTime = -1L;
     private long sequence = 0L;
@@ -72,8 +69,13 @@ public class UniqueId {
     private long nextMs(long timeStamp){
         long current;
         for(current = System.currentTimeMillis(); current <= timeStamp; current = System.currentTimeMillis()){
-
         }
         return current;
+    }
+
+    public static void main(String[] args) {
+        for (int i = 0; i < 1000000; ++i) {
+            System.out.println(getInstance().nextId());
+        }
     }
 }

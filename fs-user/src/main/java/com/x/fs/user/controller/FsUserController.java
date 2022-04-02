@@ -1,8 +1,8 @@
 package com.x.fs.user.controller;
 
+import com.x.fs.base.utils.DateUtils;
 import com.x.fs.common.dto.RequestDTO;
 import com.x.fs.common.dto.ResponseResultDTO;
-import com.x.fs.common.utils.DateUtils;
 import com.x.fs.mbg.model.FsSysUser;
 import com.x.fs.user.dto.UserInfoDTO;
 import com.x.fs.user.service.FsUserService;

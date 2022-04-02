@@ -11,7 +11,11 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @EnableDiscoveryClient
 @SpringBootApplication
 public class FsGatewayApplication {
+
     public static void main(String[] args) {
+
         SpringApplication.run(FsGatewayApplication.class, args);
+
     }
+
 }

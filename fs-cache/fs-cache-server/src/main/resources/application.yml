@@ -1,0 +1,82 @@
+server:
+  port: 8090
+spring:
+  application:
+    name: fs-cache
+  profiles:
+    active: dev #默认为开发环境
+  config:
+    location: classpath:/
+  datasource:
+    url: jdbc:mysql://localhost:3306/fsdata?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: x1234
+    druid:
+      initial-size: 5 #连接池初始化大小
+      min-idle: 10 #最小空闲连接数
+      max-active: 20 #最大连接数
+      web-stat-filter:
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*" #不统计这些请求数据
+      stat-view-servlet: #访问监控网页的登录用户名和密码
+        login-username: druid
+        login-password: druid
+  redis:
+    host: localhost # Redis服务器地址
+    database: 0 # Redis数据库索引（默认为0）
+    port: 6379 # Redis服务器连接端口
+    password:  # Redis服务器连接密码（默认为空）
+    timeout: 3000ms # 连接超时时间（毫秒）
+
+mybatis:
+  configLocation: classpath:conf/mybatis.xml
+  mapper-locations:
+    - classpath:mapper/mysql/*.xml
+    - classpath*:mapper/mysql/*.xml
+
+#缓存模块配置
+cache:
+  allEnabled: true # false 没有取到值  true 可以获取到值
+  enabledCaches:
+    - cacheName: FS_SYS_DICT_CACHE
+
+
+# 日志配置
+#logging:
+#  config: classpath:logback.xml
+
+# 配置调度中心地址
+xxl:
+  job:
+    executor:
+      appname: xxl-job-executor-sample
+      address:
+      ip:
+      port: 9999
+      logpath: ./applogs/xxl-job/jobhandler
+      logretentiondays: 30
+    accessToken:
+    admin:
+      addresses: http://127.0.0.1:8080/xxl-job-admin
+
+  # 执行器和调度中心之间的通信令牌，如果没有配置，表示关闭了通信令牌的校验。
+  # 在 xxl-job-admin 的配置文件中，有一个一模一样的配置项，两边都配置，就会进行校验。
+#xxl.job.accessToken=
+#
+#  # 配置执行器的名字
+#xxl.job.executor.appname=xxl-job-demo
+#  # 执行器地址，如果没有配置，就使用 IP:PORT 作为默认值
+#xxl.job.executor.address=
+#  # 执行器 ip 地址
+#xxl.job.executor.ip=
+#  # 执行器端口，默认即 9999
+#xxl.job.executor.port=9999
+#  # 执行器日志文件位置
+#xxl.job.executor.logpath=./applogs/xxl-job/jobhandler
+#  # 执行器日志保存时间
+#xxl.job.executor.logretentiondays=30
+
+
+feign:
+  okhttp:
+    enabled: true
+
