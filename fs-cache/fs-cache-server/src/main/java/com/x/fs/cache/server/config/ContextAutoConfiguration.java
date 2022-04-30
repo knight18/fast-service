@@ -27,6 +27,10 @@ public class ContextAutoConfiguration {
         return new ApplyLoadListener(context);
     }
 
-
+    @Bean
+    @ConditionalOnMissingBean
+    public ConfigUtils configUtils() {
+        return new ConfigUtils();
+    }
 
 }

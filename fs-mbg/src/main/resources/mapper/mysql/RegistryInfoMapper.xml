@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.x.fs.mbg.mapper.RegistryInfoMapper">
+  <resultMap id="BaseResultMap" type="com.x.fs.mbg.model.RegistryInfo">
+    <id column="REGISTRY_ID" jdbcType="VARCHAR" property="registryId" />
+    <result column="REGKEY_NAME" jdbcType="VARCHAR" property="regkeyName" />
+    <result column="REGKEY_VALUE" jdbcType="VARCHAR" property="regkeyValue" />
+    <result column="REGKEY_STATUS" jdbcType="VARCHAR" property="regkeyStatus" />
+    <result column="VALUE_DESC" jdbcType="VARCHAR" property="valueDesc" />
+    <result column="CREATION_TIME" jdbcType="TIMESTAMP" property="creationTime" />
+    <result column="UPT_TIME" jdbcType="TIMESTAMP" property="uptTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    REGISTRY_ID, REGKEY_NAME, REGKEY_VALUE, REGKEY_STATUS, VALUE_DESC, CREATION_TIME, 
+    UPT_TIME
+  </sql>
+  <select id="selectByExample" parameterType="com.x.fs.mbg.model.RegistryInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from registry_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from registry_info
+    where REGISTRY_ID = #{registryId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from registry_info
+    where REGISTRY_ID = #{registryId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.x.fs.mbg.model.RegistryInfoExample">
+    delete from registry_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.x.fs.mbg.model.RegistryInfo">
+    insert into registry_info (REGISTRY_ID, REGKEY_NAME, REGKEY_VALUE, 
+      REGKEY_STATUS, VALUE_DESC, CREATION_TIME, 
+      UPT_TIME)
+    values (#{registryId,jdbcType=VARCHAR}, #{regkeyName,jdbcType=VARCHAR}, #{regkeyValue,jdbcType=VARCHAR}, 
+      #{regkeyStatus,jdbcType=VARCHAR}, #{valueDesc,jdbcType=VARCHAR}, #{creationTime,jdbcType=TIMESTAMP}, 
+      #{uptTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.x.fs.mbg.model.RegistryInfo">
+    insert into registry_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="registryId != null">
+        REGISTRY_ID,
+      </if>
+      <if test="regkeyName != null">
+        REGKEY_NAME,
+      </if>
+      <if test="regkeyValue != null">
+        REGKEY_VALUE,
+      </if>
+      <if test="regkeyStatus != null">
+        REGKEY_STATUS,
+      </if>
+      <if test="valueDesc != null">
+        VALUE_DESC,
+      </if>
+      <if test="creationTime != null">
+        CREATION_TIME,
+      </if>
+      <if test="uptTime != null">
+        UPT_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="registryId != null">
+        #{registryId,jdbcType=VARCHAR},
+      </if>
+      <if test="regkeyName != null">
+        #{regkeyName,jdbcType=VARCHAR},
+      </if>
+      <if test="regkeyValue != null">
+        #{regkeyValue,jdbcType=VARCHAR},
+      </if>
+      <if test="regkeyStatus != null">
+        #{regkeyStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="valueDesc != null">
+        #{valueDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="creationTime != null">
+        #{creationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uptTime != null">
+        #{uptTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.x.fs.mbg.model.RegistryInfoExample" resultType="java.lang.Long">
+    select count(*) from registry_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update registry_info
+    <set>
+      <if test="record.registryId != null">
+        REGISTRY_ID = #{record.registryId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.regkeyName != null">
+        REGKEY_NAME = #{record.regkeyName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.regkeyValue != null">
+        REGKEY_VALUE = #{record.regkeyValue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.regkeyStatus != null">
+        REGKEY_STATUS = #{record.regkeyStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.valueDesc != null">
+        VALUE_DESC = #{record.valueDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.creationTime != null">
+        CREATION_TIME = #{record.creationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.uptTime != null">
+        UPT_TIME = #{record.uptTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update registry_info
+    set REGISTRY_ID = #{record.registryId,jdbcType=VARCHAR},
+      REGKEY_NAME = #{record.regkeyName,jdbcType=VARCHAR},
+      REGKEY_VALUE = #{record.regkeyValue,jdbcType=VARCHAR},
+      REGKEY_STATUS = #{record.regkeyStatus,jdbcType=VARCHAR},
+      VALUE_DESC = #{record.valueDesc,jdbcType=VARCHAR},
+      CREATION_TIME = #{record.creationTime,jdbcType=TIMESTAMP},
+      UPT_TIME = #{record.uptTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.x.fs.mbg.model.RegistryInfo">
+    update registry_info
+    <set>
+      <if test="regkeyName != null">
+        REGKEY_NAME = #{regkeyName,jdbcType=VARCHAR},
+      </if>
+      <if test="regkeyValue != null">
+        REGKEY_VALUE = #{regkeyValue,jdbcType=VARCHAR},
+      </if>
+      <if test="regkeyStatus != null">
+        REGKEY_STATUS = #{regkeyStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="valueDesc != null">
+        VALUE_DESC = #{valueDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="creationTime != null">
+        CREATION_TIME = #{creationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uptTime != null">
+        UPT_TIME = #{uptTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where REGISTRY_ID = #{registryId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.x.fs.mbg.model.RegistryInfo">
+    update registry_info
+    set REGKEY_NAME = #{regkeyName,jdbcType=VARCHAR},
+      REGKEY_VALUE = #{regkeyValue,jdbcType=VARCHAR},
+      REGKEY_STATUS = #{regkeyStatus,jdbcType=VARCHAR},
+      VALUE_DESC = #{valueDesc,jdbcType=VARCHAR},
+      CREATION_TIME = #{creationTime,jdbcType=TIMESTAMP},
+      UPT_TIME = #{uptTime,jdbcType=TIMESTAMP}
+    where REGISTRY_ID = #{registryId,jdbcType=VARCHAR}
+  </update>
+</mapper>

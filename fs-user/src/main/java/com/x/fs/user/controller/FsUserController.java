@@ -36,7 +36,7 @@ public class FsUserController {
     public ResponseResultDTO login(@RequestBody RequestDTO<UserInfoDTO> user) {
         log.info("用户已登录！！！！！！");
         FsSysUser sysUser = fsUserService.login(user);
-
+        //验证时间接口
         int date = DateUtils.getSysDate();
         if (sysUser == null) {
             return ResponseResultDTO.validateFailed("用户名或密码错误");

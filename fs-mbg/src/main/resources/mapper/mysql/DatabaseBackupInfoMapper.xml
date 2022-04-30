@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.x.fs.mbg.mapper.DatabaseBackupInfoMapper">
+  <resultMap id="BaseResultMap" type="com.x.fs.mbg.model.DatabaseBackupInfo">
+    <id column="DATABASE_NAME" jdbcType="VARCHAR" property="databaseName" />
+    <id column="DATABASE_IP" jdbcType="VARCHAR" property="databaseIp" />
+    <id column="DATABASE_PORT" jdbcType="VARCHAR" property="databasePort" />
+    <result column="DATABASE_ID" jdbcType="VARCHAR" property="databaseId" />
+    <result column="BACKUP_DIR" jdbcType="VARCHAR" property="backupDir" />
+    <result column="BACKUP_NAME" jdbcType="VARCHAR" property="backupName" />
+    <result column="BACKUP_FILE_SUFFIX" jdbcType="VARCHAR" property="backupFileSuffix" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="UPT_TIME" jdbcType="TIMESTAMP" property="uptTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    DATABASE_NAME, DATABASE_IP, DATABASE_PORT, DATABASE_ID, BACKUP_DIR, BACKUP_NAME, 
+    BACKUP_FILE_SUFFIX, CREATE_TIME, UPT_TIME
+  </sql>
+  <select id="selectByExample" parameterType="com.x.fs.mbg.model.DatabaseBackupInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from database_backup_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from database_backup_info
+    where DATABASE_NAME = #{databaseName,jdbcType=VARCHAR}
+      and DATABASE_IP = #{databaseIp,jdbcType=VARCHAR}
+      and DATABASE_PORT = #{databasePort,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="map">
+    delete from database_backup_info
+    where DATABASE_NAME = #{databaseName,jdbcType=VARCHAR}
+      and DATABASE_IP = #{databaseIp,jdbcType=VARCHAR}
+      and DATABASE_PORT = #{databasePort,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.x.fs.mbg.model.DatabaseBackupInfoExample">
+    delete from database_backup_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.x.fs.mbg.model.DatabaseBackupInfo">
+    insert into database_backup_info (DATABASE_NAME, DATABASE_IP, DATABASE_PORT, 
+      DATABASE_ID, BACKUP_DIR, BACKUP_NAME, 
+      BACKUP_FILE_SUFFIX, CREATE_TIME, UPT_TIME
+      )
+    values (#{databaseName,jdbcType=VARCHAR}, #{databaseIp,jdbcType=VARCHAR}, #{databasePort,jdbcType=VARCHAR}, 
+      #{databaseId,jdbcType=VARCHAR}, #{backupDir,jdbcType=VARCHAR}, #{backupName,jdbcType=VARCHAR}, 
+      #{backupFileSuffix,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{uptTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.x.fs.mbg.model.DatabaseBackupInfo">
+    insert into database_backup_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="databaseName != null">
+        DATABASE_NAME,
+      </if>
+      <if test="databaseIp != null">
+        DATABASE_IP,
+      </if>
+      <if test="databasePort != null">
+        DATABASE_PORT,
+      </if>
+      <if test="databaseId != null">
+        DATABASE_ID,
+      </if>
+      <if test="backupDir != null">
+        BACKUP_DIR,
+      </if>
+      <if test="backupName != null">
+        BACKUP_NAME,
+      </if>
+      <if test="backupFileSuffix != null">
+        BACKUP_FILE_SUFFIX,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="uptTime != null">
+        UPT_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="databaseName != null">
+        #{databaseName,jdbcType=VARCHAR},
+      </if>
+      <if test="databaseIp != null">
+        #{databaseIp,jdbcType=VARCHAR},
+      </if>
+      <if test="databasePort != null">
+        #{databasePort,jdbcType=VARCHAR},
+      </if>
+      <if test="databaseId != null">
+        #{databaseId,jdbcType=VARCHAR},
+      </if>
+      <if test="backupDir != null">
+        #{backupDir,jdbcType=VARCHAR},
+      </if>
+      <if test="backupName != null">
+        #{backupName,jdbcType=VARCHAR},
+      </if>
+      <if test="backupFileSuffix != null">
+        #{backupFileSuffix,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uptTime != null">
+        #{uptTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.x.fs.mbg.model.DatabaseBackupInfoExample" resultType="java.lang.Long">
+    select count(*) from database_backup_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update database_backup_info
+    <set>
+      <if test="record.databaseName != null">
+        DATABASE_NAME = #{record.databaseName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.databaseIp != null">
+        DATABASE_IP = #{record.databaseIp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.databasePort != null">
+        DATABASE_PORT = #{record.databasePort,jdbcType=VARCHAR},
+      </if>
+      <if test="record.databaseId != null">
+        DATABASE_ID = #{record.databaseId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.backupDir != null">
+        BACKUP_DIR = #{record.backupDir,jdbcType=VARCHAR},
+      </if>
+      <if test="record.backupName != null">
+        BACKUP_NAME = #{record.backupName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.backupFileSuffix != null">
+        BACKUP_FILE_SUFFIX = #{record.backupFileSuffix,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.uptTime != null">
+        UPT_TIME = #{record.uptTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update database_backup_info
+    set DATABASE_NAME = #{record.databaseName,jdbcType=VARCHAR},
+      DATABASE_IP = #{record.databaseIp,jdbcType=VARCHAR},
+      DATABASE_PORT = #{record.databasePort,jdbcType=VARCHAR},
+      DATABASE_ID = #{record.databaseId,jdbcType=VARCHAR},
+      BACKUP_DIR = #{record.backupDir,jdbcType=VARCHAR},
+      BACKUP_NAME = #{record.backupName,jdbcType=VARCHAR},
+      BACKUP_FILE_SUFFIX = #{record.backupFileSuffix,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      UPT_TIME = #{record.uptTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.x.fs.mbg.model.DatabaseBackupInfo">
+    update database_backup_info
+    <set>
+      <if test="databaseId != null">
+        DATABASE_ID = #{databaseId,jdbcType=VARCHAR},
+      </if>
+      <if test="backupDir != null">
+        BACKUP_DIR = #{backupDir,jdbcType=VARCHAR},
+      </if>
+      <if test="backupName != null">
+        BACKUP_NAME = #{backupName,jdbcType=VARCHAR},
+      </if>
+      <if test="backupFileSuffix != null">
+        BACKUP_FILE_SUFFIX = #{backupFileSuffix,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uptTime != null">
+        UPT_TIME = #{uptTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where DATABASE_NAME = #{databaseName,jdbcType=VARCHAR}
+      and DATABASE_IP = #{databaseIp,jdbcType=VARCHAR}
+      and DATABASE_PORT = #{databasePort,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.x.fs.mbg.model.DatabaseBackupInfo">
+    update database_backup_info
+    set DATABASE_ID = #{databaseId,jdbcType=VARCHAR},
+      BACKUP_DIR = #{backupDir,jdbcType=VARCHAR},
+      BACKUP_NAME = #{backupName,jdbcType=VARCHAR},
+      BACKUP_FILE_SUFFIX = #{backupFileSuffix,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPT_TIME = #{uptTime,jdbcType=TIMESTAMP}
+    where DATABASE_NAME = #{databaseName,jdbcType=VARCHAR}
+      and DATABASE_IP = #{databaseIp,jdbcType=VARCHAR}
+      and DATABASE_PORT = #{databasePort,jdbcType=VARCHAR}
+  </update>
+</mapper>

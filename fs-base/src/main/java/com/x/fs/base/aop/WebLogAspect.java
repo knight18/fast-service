@@ -6,8 +6,8 @@ import cn.hutool.json.JSONUtil;
 import com.x.fs.base.dto.WebLog;
 import com.x.fs.base.utils.LoggerAopUtils;
 import com.x.fs.base.utils.MilliSecondUtils;
+import com.x.fs.common.constant.DefaultConstant;
 import com.x.fs.common.utils.UniqueId;
-import com.x.fs.common.constant.FsAspectConstant;
 import io.swagger.annotations.ApiOperation;
 import net.logstash.logback.marker.Markers;
 import org.apache.logging.log4j.ThreadContext;
@@ -65,7 +65,7 @@ public class WebLogAspect {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
         String requestId = UniqueId.getInstance().nextId().toString();
-        ThreadContext.put(FsAspectConstant.REQUEST_ID, requestId);
+        ThreadContext.put(DefaultConstant.REQUEST_ID, requestId);
         long startTime = MilliSecondUtils.currentTimeMillis();
         Signature signature = joinPoint.getSignature();
         String clazzName = signature.getDeclaringTypeName();

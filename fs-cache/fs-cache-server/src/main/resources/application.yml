@@ -39,6 +39,9 @@ cache:
   enabledCaches:
     - cacheName: FS_SYS_DICT_CACHE
 
+fs:
+  config:
+    location: /conf
 
 # 日志配置
 #logging:

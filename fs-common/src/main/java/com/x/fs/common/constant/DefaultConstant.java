@@ -26,5 +26,10 @@ public interface DefaultConstant {
      */
     String DEFAULT_FILE_NAME = "Mybatis-log";
 
+    /**
+     * 请求Id
+     */
+    String REQUEST_ID = "requestId";
+
 
 }

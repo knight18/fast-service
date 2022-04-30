@@ -1,0 +1,19 @@
+fs:
+  asynctask:
+    publicProperties:
+      threadNamePrefix: publicAsyncService
+      corePoolSize: 5
+      maxPoolSize: 10
+      keepAliveSeconds: 60
+      queueCapacity: 100
+    privateProperties:
+      - threadPoolKey: privateAsyncService
+        corePoolSize: 5
+        maxPoolSize: 10
+        keepAliveSeconds: 60
+        queueCapacity: 20
+      - threadPoolKey: computeAsyncService
+        corePoolSize: 100
+        maxPoolSize: 100
+        keepAliveSeconds: 60
+        queueCapacity: 10000

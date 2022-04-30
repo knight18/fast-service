@@ -1,0 +1,34 @@
+{
+  "groups": [
+    {
+      "name": "jdbc",
+      "type": "com.x.fs.base.config.MoreDataSourceProperties",
+      "sourceType": "com.x.fs.base.config.MoreDataSourceProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "jdbc.data-sources",
+      "type": "com.x.fs.base.config.MoreDataSourceProperties$DataSourceProperties[]",
+      "description": "多数据源配置.",
+      "sourceType": "com.x.fs.base.config.MoreDataSourceProperties",
+      "deprecated": true,
+      "deprecation": {
+        "level": "warning",
+        "replacement": "jdbc.data-sources"
+      }
+    },
+    {
+      "name": "jdbc.default-data-source-id",
+      "type": "java.lang.String",
+      "description": "默认数据源.",
+      "sourceType": "com.x.fs.base.config.MoreDataSourceProperties",
+      "deprecated": true,
+      "deprecation": {
+        "level": "warning",
+        "replacement": "jdbc.default-data-source-id"
+      }
+    }
+  ],
+  "hints": []
+}

@@ -10,6 +10,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>fs-database</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>fs-database-api</module>
+        <module>fs-database-server</module>
+    </modules>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>

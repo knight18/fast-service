@@ -1,0 +1,52 @@
+server:
+  port: 8091
+  version: v0.1
+  servlet:
+    session:
+      cookie:
+        secure: true
+        path: /
+        http-only: true
+      timeout: 100m #session超时时间
+  tomcat:
+    # 最大可被连接数
+    max-connections: 10000
+    # 等待队列长度
+    accept-count: 1000
+    # 最大工作线程数
+    max-threads: 300
+    # 最小工作线程数
+    min-spare-threads: 100
+spring:
+  application:
+    name: fs-database
+  profiles:
+    active: dev
+  main:
+    allow-bean-definition-overriding: true
+  config:
+    location: classpath:/
+
+  redis:
+    host: localhost # Redis服务器地址
+    database: 0 # Redis数据库索引（默认为0）
+    port: 6379 # Redis服务器连接端口
+    password:  # Redis服务器连接密码（默认为空）
+    timeout: 3000ms # 连接超时时间（毫秒）
+
+fs:
+  config:
+    location: /conf
+
+mybatis:
+  configLocation: classpath:conf/mybatis.xml
+  mapper-locations:
+    - classpath:mapper/mysql/*.xml
+    - classpath*:mapper/mysql/*.xml
+
+feign:
+  okhttp:
+    enabled: true
+
+
+
