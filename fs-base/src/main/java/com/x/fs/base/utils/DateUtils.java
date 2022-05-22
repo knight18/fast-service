@@ -75,6 +75,13 @@ public class DateUtils {
         return DateTimeFormatter.ofPattern(dateFormatStr).withZone(ZoneId.systemDefault()).format(instant);
     }
 
+    /**
+     * 获取默认时间 1970-01-01 08:00:00
+     * @return
+     */
+    public static Timestamp getDefualtTime() {
+        return Timestamp.valueOf("1970-01-01 08:00:00");
+    }
 
 
 }

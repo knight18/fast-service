@@ -5,6 +5,7 @@ import com.sun.org.slf4j.internal.Logger;
 import com.sun.org.slf4j.internal.LoggerFactory;
 import com.x.fs.base.config.MoreDataSourceProperties;
 import com.x.fs.base.constant.DataSourceConstan;
+import com.x.fs.base.datasource.utils.DataSourceUtils;
 import org.springframework.beans.PropertyValue;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;

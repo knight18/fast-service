@@ -61,4 +61,32 @@ public class StringUtils {
     }
 
 
+    /**
+     * 按len长度返回字符串。支持中文字符截取。
+     *
+     * @param str
+     * @param len
+     * @return
+     */
+    public static String subStringByByte(String str, int len) {
+        String result;
+        if (str == null || len <= 0) {
+            return str;
+        }
+        byte[] a = str.getBytes();
+        if (a.length <= len) {
+            return str;
+        }
+        result = new String(a, 0, len);
+        int length = result.length();
+        if (str.charAt(length - 1) != result.charAt(length - 1)) {
+            if (length < 2) {
+                result = null;
+            } else {
+                result = result.substring(0, length - 1);
+            }
+        }
+        return result;
+    }
+
 }

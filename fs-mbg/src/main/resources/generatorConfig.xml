@@ -37,7 +37,7 @@
         <javaClientGenerator type="XMLMAPPER" targetPackage="com.x.fs.mbg.mapper"
                              targetProject="fs-mbg\src\main\java"/>
         <!--生成全部表tableName设为%-->
-        <table tableName="database_backup_info">
+        <table tableName="fs_work_flow_tracker">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
     </context>

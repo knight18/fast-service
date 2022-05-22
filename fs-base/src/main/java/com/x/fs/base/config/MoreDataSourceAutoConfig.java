@@ -3,7 +3,7 @@ package com.x.fs.base.config;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.x.fs.base.annotation.ConditionalOnMoreDataSourceEnabled;
 import com.x.fs.base.aop.DataSourceSetAspect;
-import com.x.fs.base.datasource.DataSourceUtils;
+import com.x.fs.base.datasource.utils.DataSourceUtils;
 import com.x.fs.base.datasource.MoreDataSourceRegistrar;
 import com.x.fs.base.utils.FsApplicationContext;
 import org.springframework.beans.BeansException;

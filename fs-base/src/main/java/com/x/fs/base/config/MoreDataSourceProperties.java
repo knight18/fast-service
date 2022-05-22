@@ -1,5 +1,6 @@
 package com.x.fs.base.config;
 
+import com.x.fs.base.constant.DataSourceConstan;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.Map;
@@ -8,7 +9,7 @@ import java.util.Map;
  * 多数据源配置值
  * @author x
  */
-@ConfigurationProperties(prefix = "jdbc")
+@ConfigurationProperties(prefix = DataSourceConstan.DATA_PROPERTIES_PREFIX)
 public class MoreDataSourceProperties {
 
     private String defaultDataSourceId;

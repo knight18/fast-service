@@ -26,12 +26,6 @@ spring:
             - Path=/fs-database/**
           filters:
             - StripPrefix=1
-#        - id: fs-asynctask
-#          uri: lb://fs-asynctask
-#          predicates:
-#            - Path=/fs-asynctask/**
-#          filters:
-#            - StripPrefix=1
 
 secure:
   ignores:

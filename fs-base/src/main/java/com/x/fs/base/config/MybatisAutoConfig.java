@@ -1,7 +1,7 @@
 package com.x.fs.base.config;
 
 import com.x.fs.base.constant.DataSourceConstan;
-import com.x.fs.base.datasource.DataSourceUtils;
+import com.x.fs.base.datasource.utils.DataSourceUtils;
 import com.x.fs.base.mybatis.ResourceResolver;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.mapping.DatabaseIdProvider;
@@ -64,6 +64,7 @@ public class MybatisAutoConfig implements InitializingBean {
         this.typeHandlers = typeHandlersProvider.getIfAvailable();
         this.languageDrivers = languageDriversProvider.getIfAvailable();
         this.resourceLoader = resourceLoader;
+        //MybatisInterceptorAutoConfig  ->  databaseIdProvider  用来执行sql时，区分databaseId
         this.databaseIdProvider = databaseIdProvider.getIfAvailable();
         this.configurationCustomizers = configurationCustomizersProvider.getIfAvailable();
         this.applicationContext = applicationContext;

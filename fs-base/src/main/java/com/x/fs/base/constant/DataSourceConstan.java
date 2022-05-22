@@ -5,6 +5,8 @@ package com.x.fs.base.constant;
  */
 public class DataSourceConstan {
 
+    public static final String DATA_PROPERTIES_PREFIX = "jdbc";
+
     public static final String DATA_SOURCE = "dataSource";
 
     /**

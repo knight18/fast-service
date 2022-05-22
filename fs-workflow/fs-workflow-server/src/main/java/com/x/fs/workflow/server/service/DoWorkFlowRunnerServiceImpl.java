@@ -1,0 +1,36 @@
+package com.x.fs.workflow.server.service;
+
+import com.x.fs.common.exception.FsServiceException;
+
+import com.x.fs.workflow.api.dto.WorkFlowRunnerExtParam;
+import com.x.fs.workflow.api.dto.WorkFlowRunnerParam;
+import com.x.fs.workflow.api.dto.WorkFlowRunnerResult;
+import com.x.fs.workflow.server.dto.WorkFlowTrackerDto;
+import com.x.fs.workflow.server.inter.IDoWorkFlowRunner;
+import org.springframework.stereotype.Service;
+
+/**
+ * @author x
+ */
+@Service("iDoWorkFlowRunner")
+public class DoWorkFlowRunnerServiceImpl implements IDoWorkFlowRunner{
+    @Override
+    public WorkFlowRunnerResult runWorkUnit(WorkFlowRunnerParam inputParam) {
+        WorkFlowTrackerDto workFlowTracker;
+        try {
+            workFlowTracker = WorkFlowTrackerServiceImpl.getWorkUnitTracker().allocWorkUnit(inputParam);
+        } catch (Exception e){
+            throw new FsServiceException("allocWorkUnit error!" + e.getMessage());
+        }
+
+        if (workFlowTracker == null) {
+            return new WorkFlowRunnerResult(-1,null);
+        }
+        return WorkFlowTrackerServiceImpl.getWorkUnitTracker().runWorkUnit(workFlowTracker);
+    }
+
+    public WorkFlowRunnerResult runRemoteWorkUnit(WorkFlowRunnerExtParam inputParam) {
+        return WorkFlowTrackerServiceImpl.getWorkUnitTracker().runRemoteWorkUnit(inputParam);
+    }
+
+}

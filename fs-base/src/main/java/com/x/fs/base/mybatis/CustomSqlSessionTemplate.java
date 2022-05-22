@@ -2,7 +2,7 @@ package com.x.fs.base.mybatis;
 
 import com.x.fs.base.config.MoreDataSourceProperties;
 import com.x.fs.base.datasource.DataSourceContextHolder;
-import com.x.fs.base.datasource.DataSourceUtils;
+import com.x.fs.base.datasource.utils.DataSourceUtils;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.ibatis.executor.BatchResult;
 import org.apache.ibatis.reflection.ExceptionUtil;

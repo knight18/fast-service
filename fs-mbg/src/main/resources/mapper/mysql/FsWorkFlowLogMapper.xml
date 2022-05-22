@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.x.fs.mbg.mapper.FsWorkFlowLogMapper">
+  <resultMap id="BaseResultMap" type="com.x.fs.mbg.model.FsWorkFlowLog">
+    <id column="WF_LOG_ID" jdbcType="BIGINT" property="wfLogId" />
+    <id column="WF_GUID" jdbcType="VARCHAR" property="wfGuid" />
+    <result column="WF_TIME" jdbcType="TIMESTAMP" property="wfTime" />
+    <result column="WF_LOG_TEXT" jdbcType="VARCHAR" property="wfLogText" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    WF_LOG_ID, WF_GUID, WF_TIME, WF_LOG_TEXT
+  </sql>
+  <select id="selectByExample" parameterType="com.x.fs.mbg.model.FsWorkFlowLogExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from fs_work_flow_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from fs_work_flow_log
+    where WF_LOG_ID = #{wfLogId,jdbcType=BIGINT}
+      and WF_GUID = #{wfGuid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="map">
+    delete from fs_work_flow_log
+    where WF_LOG_ID = #{wfLogId,jdbcType=BIGINT}
+      and WF_GUID = #{wfGuid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.x.fs.mbg.model.FsWorkFlowLogExample">
+    delete from fs_work_flow_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.x.fs.mbg.model.FsWorkFlowLog">
+    insert into fs_work_flow_log (WF_LOG_ID, WF_GUID, WF_TIME, 
+      WF_LOG_TEXT)
+    values (#{wfLogId,jdbcType=BIGINT}, #{wfGuid,jdbcType=VARCHAR}, #{wfTime,jdbcType=TIMESTAMP}, 
+      #{wfLogText,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.x.fs.mbg.model.FsWorkFlowLog">
+    insert into fs_work_flow_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="wfLogId != null">
+        WF_LOG_ID,
+      </if>
+      <if test="wfGuid != null">
+        WF_GUID,
+      </if>
+      <if test="wfTime != null">
+        WF_TIME,
+      </if>
+      <if test="wfLogText != null">
+        WF_LOG_TEXT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="wfLogId != null">
+        #{wfLogId,jdbcType=BIGINT},
+      </if>
+      <if test="wfGuid != null">
+        #{wfGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="wfTime != null">
+        #{wfTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="wfLogText != null">
+        #{wfLogText,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.x.fs.mbg.model.FsWorkFlowLogExample" resultType="java.lang.Long">
+    select count(*) from fs_work_flow_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update fs_work_flow_log
+    <set>
+      <if test="record.wfLogId != null">
+        WF_LOG_ID = #{record.wfLogId,jdbcType=BIGINT},
+      </if>
+      <if test="record.wfGuid != null">
+        WF_GUID = #{record.wfGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.wfTime != null">
+        WF_TIME = #{record.wfTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.wfLogText != null">
+        WF_LOG_TEXT = #{record.wfLogText,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update fs_work_flow_log
+    set WF_LOG_ID = #{record.wfLogId,jdbcType=BIGINT},
+      WF_GUID = #{record.wfGuid,jdbcType=VARCHAR},
+      WF_TIME = #{record.wfTime,jdbcType=TIMESTAMP},
+      WF_LOG_TEXT = #{record.wfLogText,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.x.fs.mbg.model.FsWorkFlowLog">
+    update fs_work_flow_log
+    <set>
+      <if test="wfTime != null">
+        WF_TIME = #{wfTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="wfLogText != null">
+        WF_LOG_TEXT = #{wfLogText,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where WF_LOG_ID = #{wfLogId,jdbcType=BIGINT}
+      and WF_GUID = #{wfGuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.x.fs.mbg.model.FsWorkFlowLog">
+    update fs_work_flow_log
+    set WF_TIME = #{wfTime,jdbcType=TIMESTAMP},
+      WF_LOG_TEXT = #{wfLogText,jdbcType=VARCHAR}
+    where WF_LOG_ID = #{wfLogId,jdbcType=BIGINT}
+      and WF_GUID = #{wfGuid,jdbcType=VARCHAR}
+  </update>
+</mapper>

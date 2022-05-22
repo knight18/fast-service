@@ -1,5 +1,8 @@
 package com.x.fs.workflow.server.inter;
 
+/**
+ * @author x
+ */
 public interface IWorkFlowLogger {
 
     void setFirstResult(String msgCode, String msg);
@@ -20,6 +23,6 @@ public interface IWorkFlowLogger {
 
     void setSecondResultEnd();
 
-    Long getCurrentWuLogSn();
+    Long getCurrentWuLogId();
 
 }

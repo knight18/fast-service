@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.x.fs.workflow.server.dao.FsWorkFlowTrackerMapperExt">
+    <resultMap id="BaseResultMap" type="com.x.fs.workflow.server.dto.WorkFlowTrackerOneDto">
+        <result column="WF_GUID" jdbcType="VARCHAR" property="wfGuid" />
+        <result column="WF_NAME" jdbcType="VARCHAR" property="wfName" />
+        <result column="WF_CREATE_TIME" jdbcType="TIMESTAMP" property="wfCreateTime" />
+        <result column="WF_LEASE_TIME" jdbcType="BIGINT" property="wfLeaseTime" />
+        <result column="WF_GRACE_TIME" jdbcType="BIGINT" property="wfGraceTime" />
+        <result column="WF_LEASE_EXPIRY_TIME" jdbcType="TIMESTAMP" property="wfLeaseExpiryTime" />
+        <result column="WF_LEASE_COUNT" jdbcType="INTEGER" property="wfLeaseCount" />
+        <result column="WF_REQUEST_TEXT" jdbcType="VARCHAR" property="wfRequestText" />
+        <result column="WF_STATUS" jdbcType="VARCHAR" property="wfStatus" />
+        <result column="WF_SIGNAL" jdbcType="INTEGER" property="wfSignal" />
+        <result column="WF_PARENT_GUID" jdbcType="VARCHAR" property="wfParentGuid" />
+        <result column="WF_FINISH_TIME" jdbcType="TIMESTAMP" property="wfFinishTime" />
+        <result column="WF_FUNCTION" jdbcType="VARCHAR" property="wfFunction" />
+        <result column="EXPIRY_TIME" jdbcType="BIGINT" property="expiryTime"/>
+    </resultMap>
+
+    <resultMap id="WfStatusResultMap" type="com.x.fs.workflow.server.dto.WorkFlowTrackerTwoDto">
+        <result column="WF_GUID" jdbcType="VARCHAR" property="wfGuid" />
+        <result column="WF_LEASE_COUNT" jdbcType="INTEGER" property="wfLeaseCount" />
+        <result column="WF_STATUS" jdbcType="VARCHAR" property="wfStatus" />
+        <result column="WF_SIGNAL" jdbcType="INTEGER" property="wfSignal" />
+        <result column="EXPIRY_TIME" jdbcType="BIGINT" property="expiryTime"/>
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+        WF_GUID, WF_NAME, WF_CREATE_TIME, WF_LEASE_TIME, WF_GRACE_TIME, WF_LEASE_EXPIRY_TIME,
+    WF_LEASE_COUNT, WF_REQUEST_TEXT, WF_STATUS, WF_SIGNAL, WF_PARENT_GUID, WF_FINISH_TIME,
+    WF_FUNCTION
+    </sql>
+
+    <update id="updateWfStatusByUid" databaseId="mysql">
+        update fs_work_flow_tracker
+        <set>
+            <if test='wfStatus == "2" or wfStatus == "3" '>
+                WF_FINISH_TIME = NOW(),
+            </if>
+            <if test='wfStatus == "1" '>
+                WF_LEASE_EXPIRY_TIME = now()+interval WF_GRACE_TIME second,
+                WF_LEASE_COUNT = WF_LEASE_COUNT +1,
+            </if>
+            <if test="wfStatus != null and wfStatus != '' ">
+                WF_STATUS = #{wfStatus,jdbcType=VARCHAR}
+            </if>
+        </set>
+        <where>
+            WF_STATUS not in ('2','3')
+            AND WF_GUID = #{wfGuid,jdbcType=VARCHAR}
+            <if test='wfStatus == "1" '>
+                and WF_LEASE_COUNT != -1
+            </if>
+        </where>
+    </update>
+
+    <update id="updateWfStatusByUid" databaseId="oracle">
+        update fs_work_flow_tracker
+        <set>
+            <if test='wfStatus == "2" or wfStatus == "3" '>
+                WF_FINISH_TIME = TO_CHAR(SYSTIMESTAMP, 'YYYY-MM-DD HH24:MI:SS.FF'),
+            </if>
+            <if test='wfStatus == "1" '>
+                WF_LEASE_EXPIRY_TIME = TO_CHAR(SYSTIMESTAMP + NUMTODSINTERVAL(WF_GRACE_TIME, 'SECOND'), 'YYYY-MM-DD HH24:MI:SS.FF'),
+                WF_LEASE_COUNT = WF_LEASE_COUNT +1,
+            </if>
+            <if test="wfStatus != null and wfStatus != '' ">
+                WF_STATUS = #{wfStatus,jdbcType=VARCHAR}
+            </if>
+        </set>
+        <where>
+            WF_STATUS not in ('2','3')
+            AND WF_GUID = #{wfGuid,jdbcType=VARCHAR}
+            <if test='wfStatus == "1" '>
+                and WF_LEASE_COUNT != -1
+            </if>
+        </where>
+    </update>
+
+
+    <update id="updateWfSignalByid">
+        update fs_work_flow_tracker
+        <set>
+            <if test='wfLeaseCount != null '>
+                Wf_LEASE_COUNT = #{wfLeaseCount,jdbcType=INTEGER},
+            </if>
+            WF_SIGNAL = #{wfSignal,jdbcType=INTEGER}
+        </set>
+        <where>
+            WF_STATUS not in ('2','3')
+            and
+            WF_GUID=#{wfGuid,jdbcType=VARCHAR}
+        </where>
+    </update>
+
+
+    <select id="selectUnFinishWorkFlow" resultMap="BaseResultMap" databaseId="mysql">
+        select
+               TIMESTAMPDIFF(SECOND, WF_LEASE_EXPIRY_TIME,NOW()) EXPIRY_TIME,
+        <include refid="Base_Column_List" />
+        from fs_work_flow_tracker
+        where
+            Wf_STATUS not in ('2','3')
+    </select>
+
+    <select id="selectUnFinishWorkFlow" resultMap="BaseResultMap" databaseId="oracle">
+        select
+               extract( day from SYSTIMESTAMP - to_timestamp(WF_LEASE_EXPIRY_TIME,'YYYY-MM-DD HH24:MI:SS.FF'))*24*60*60
+                   + extract( hour from SYSTIMESTAMP - to_timestamp(WF_LEASE_EXPIRY_TIME,'YYYY-MM-DD HH24:MI:SS.FF') )*60*60
+                   + extract( minute from SYSTIMESTAMP - to_timestamp(WF_LEASE_EXPIRY_TIME,'YYYY-MM-DD HH24:MI:SS.FF') )*60
+                   + round(extract( second from SYSTIMESTAMP - to_timestamp(WF_LEASE_EXPIRY_TIME,'YYYY-MM-DD HH24:MI:SS.FF')  )) EXPIRY_TIME,
+        <include refid="Base_Column_List" />
+        from fs_work_flow_tracker
+        where
+        Wf_STATUS not in ('2','3')
+    </select>
+
+
+
+   <select id="selectWfStatusByWfGuides" databaseId="mysql" resultMap="WfStatusResultMap">
+       select WF_GUID, WF_SIGNAL,WF_STATUS,WF_LEASE_COUNT,
+       TIMESTAMPDIFF(SECOND, WF_LEASE_EXPIRY_TIME,NOW()) EXPIRY_TIME
+       from fs_work_flow_tracker
+       <where>
+       <if test="wfGuids != null and wfGuids !=''">
+             WF_GUID in
+           <foreach item="item" index="index" collection="wfGuids.split(',')" open="(" separator="," close=")">
+               #{item}
+           </foreach>
+       </if>
+       </where>
+   </select>
+
+    <select id="selectWfStatusByWfGuides" databaseId="oracle" resultMap="WfStatusResultMap">
+        select WF_GUID, WF_SIGNAL,WF_STATUS,WF_LEASE_COUNT,
+        extract( day from SYSTIMESTAMP - to_timestamp(WF_LEASE_EXPIRY_TIME,'YYYY-MM-DD HH24:MI:SS.FF') )*24*60*60 + extract( hour from SYSTIMESTAMP - to_timestamp(WU_LEASE_EXPIRY_TIME,'YYYY-MM-DD HH24:MI:SS.FF') )*60*60 + extract( minute from SYSTIMESTAMP - to_timestamp(WU_LEASE_EXPIRY_TIME,'YYYY-MM-DD HH24:MI:SS.FF') )*60 + round(extract( second from SYSTIMESTAMP - to_timestamp(WU_LEASE_EXPIRY_TIME,'YYYY-MM-DD HH24:MI:SS.FF'))) EXPIRY_TIME
+        from fs_work_flow_tracker
+        <where>
+            <if test="wfGuids != null and wfGuids !=''">
+                WF_GUID in
+                <foreach item="item" index="index" collection="wfGuids.split(',')" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <update id="updateSignalByUid">
+        UPDATE  fs_work_flow_tracker
+        <set>
+            <if test='leaseCount != null '>
+                WF_LEASE_COUNT = #{wfLeaseCount,jdbcType=INTEGER},
+            </if>
+            WF_SIGNAL = #{signal,jdbcType=INTEGER}
+        </set>
+        <where>
+            WF_STATUS NOT IN ('2','3')
+            AND
+            WU_GUID=#{wuGuid,jdbcType=VARCHAR}
+        </where>
+
+    </update>
+
+
+</mapper>

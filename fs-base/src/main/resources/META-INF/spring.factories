@@ -1,5 +1,7 @@
 org.springframework.boot.env.EnvironmentPostProcessor=\
 com.x.fs.base.environment.PropertySourcesProcessor
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.x.fs.base.config.MybatisInterceptorAutoConfig,\
 com.x.fs.base.config.MoreDataSourceAutoConfig,\
-com.x.fs.base.mybatis.MoreDataSourceMybatisAutoConfig
+com.x.fs.base.mybatis.MoreDataSourceMybatisAutoConfig,\
+com.x.fs.base.config.DataTransactionManagerAutoConfig

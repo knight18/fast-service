@@ -57,6 +57,7 @@
         <baomidou.mybatis.versiom>3.5.1</baomidou.mybatis.versiom>
         <swagger-annotations.version>1.6.0</swagger-annotations.version>
         <junit.version>4.8.2</junit.version>
+        <gson.version>2.8.7</gson.version>
     </properties>
 
     <parent>
@@ -285,6 +286,12 @@
                 <artifactId>junit</artifactId>
                 <version>${junit.version}</version>
                 <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.code.gson</groupId>
+                <artifactId>gson</artifactId>
+                <version>${gson.version}</version>
             </dependency>
 
         </dependencies>

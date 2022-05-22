@@ -5,6 +5,7 @@ import com.jcraft.jsch.Session;
 import com.x.fs.asynctask.server.service.AsyncTaskService;
 import com.x.fs.base.constant.FsBaseConstant;
 import com.x.fs.base.dto.ConnectInfoDTO;
+import com.x.fs.base.transaction.FsTransactionManager;
 import com.x.fs.base.utils.*;
 import com.x.fs.common.exception.FsServiceException;
 import com.x.fs.common.utils.UniqueId;
@@ -15,7 +16,9 @@ import com.x.fs.database.server.atom.RegistryInfoAtom;
 import com.x.fs.database.server.dto.CmdResult;
 import com.x.fs.base.dto.SSHExecuteResult;
 import com.x.fs.database.server.service.MysqlDataBaseService;
+import com.x.fs.mbg.mapper.FsWorkFlowLogMapper;
 import com.x.fs.mbg.model.DatabaseBackupInfo;
+import com.x.fs.mbg.model.FsWorkFlowLog;
 import com.x.fs.mbg.model.RegistryInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -46,6 +49,9 @@ public class MysqlDataBaseServiceImpl implements MysqlDataBaseService {
     @Autowired
     private DatabaseBackupInfoAtom databaseBackupInfoAtom;
 
+    @Autowired
+    private FsWorkFlowLogMapper fsWorkFlowLogMapper;
+
     @Override
     public int insertRegistryInfo(RegistryInfoDTO input) {
 
@@ -67,6 +73,28 @@ public class MysqlDataBaseServiceImpl implements MysqlDataBaseService {
 //            log.info("第["+i+"]笔时间："+time+"一共需要："+ (time-midTime));
 //        }
 
+        try (FsTransactionManager fsTransactionManager = new FsTransactionManager()) {
+            RegistryInfo info = new RegistryInfo();
+            info.setRegistryId(UniqueId.getInstance().nextId().toString());
+            info.setRegkeyName("测试");
+            info.setRegkeyStatus("0");
+            info.setRegkeyValue("cs");
+            info.setValueDesc("测试");
+            info.setCreationTime(date);
+            info.setUptTime(date);
+            registryInfoAtom.insertRegistryInfo(info);
+
+            FsWorkFlowLog fsWorkFlowLog = new FsWorkFlowLog();
+            fsWorkFlowLog.setWfGuid(UniqueId.getInstance().nextId().toString());
+            fsWorkFlowLog.setWfLogId(1L);
+            fsWorkFlowLog.setWfLogText("cs实物");
+            fsWorkFlowLog.setWfTime(DateUtils.getTimestamp());
+            fsWorkFlowLogMapper.insert(fsWorkFlowLog);
+
+            fsTransactionManager.doSuccess();
+        } catch (Exception e) {
+            throw new FsServiceException(e.getMessage());
+        }
         ListenableFuture<Object> obj = asyncTaskService.commit("privateAsyncService", () -> {
             RegistryInfo s = null;
             try {

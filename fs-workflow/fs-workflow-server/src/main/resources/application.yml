@@ -1,0 +1,41 @@
+server:
+  port: 8093
+  version: v0.1
+  servlet:
+    session:
+      cookie:
+        secure: true
+        path: /
+        http-only: true
+      timeout: 100m #session超时时间
+  tomcat:
+    # 最大可被连接数
+    max-connections: 10000
+    # 等待队列长度
+    accept-count: 1000
+
+spring:
+  application:
+    name: fs-workflow
+  profiles:
+    active: dev
+  main:
+    allow-bean-definition-overriding: true
+  config:
+    location: classpath:/
+fs:
+  config:
+    location: /conf
+
+mybatis:
+  configLocation: classpath:conf/mybatis.xml
+  mapper-locations:
+    - classpath:mapper/mysql/*.xml
+    - classpath*:mapper/mysql/*.xml
+
+feign:
+  okhttp:
+    enabled: true
+
+
+
