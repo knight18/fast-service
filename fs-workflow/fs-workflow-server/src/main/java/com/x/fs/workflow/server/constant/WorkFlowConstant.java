@@ -50,4 +50,21 @@ public interface WorkFlowConstant {
     Integer WF_SCHEDULE_STATUS_CANCEL = 4;
 
 
+    /**
+     * 清算任务执行步骤 1 执行前处理
+     */
+    int WF_TASK_BEFORE_STEP = 1;
+    /**
+     * 2 执行过程
+     */
+    int WF_TASK_EXEC_STEP = 2;
+    /**
+     * 3 后处理
+     */
+    int WF_TASK_AFTER_STEP = 3;
+    /**
+     * 4 执行结束
+     */
+    int WF_TASK_SPLIT_STEP = 4;
+
 }

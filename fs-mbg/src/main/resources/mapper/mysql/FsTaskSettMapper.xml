@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.x.fs.mbg.mapper.FsTaskSettMapper">
+  <resultMap id="BaseResultMap" type="com.x.fs.mbg.model.FsTaskSett">
+    <id column="TASK_DATE" jdbcType="INTEGER" property="taskDate" />
+    <id column="TASK_WORK_SN" jdbcType="INTEGER" property="taskWorkSn" />
+    <id column="TASK_PHASE" jdbcType="INTEGER" property="taskPhase" />
+    <result column="WF_GUID" jdbcType="VARCHAR" property="wfGuid" />
+    <result column="TASK_PHASE_NAME" jdbcType="VARCHAR" property="taskPhaseName" />
+    <result column="TASK_STATUS" jdbcType="VARCHAR" property="taskStatus" />
+    <result column="TASK_CONTENT" jdbcType="VARCHAR" property="taskContent" />
+    <result column="ERR_CODE" jdbcType="INTEGER" property="errCode" />
+    <result column="ERR_DESC" jdbcType="VARCHAR" property="errDesc" />
+    <result column="BGN_TIME" jdbcType="TIMESTAMP" property="bgnTime" />
+    <result column="END_TIME" jdbcType="TIMESTAMP" property="endTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    TASK_DATE, TASK_WORK_SN, TASK_PHASE, WF_GUID, TASK_PHASE_NAME, TASK_STATUS, TASK_CONTENT, 
+    ERR_CODE, ERR_DESC, BGN_TIME, END_TIME
+  </sql>
+  <select id="selectByExample" parameterType="com.x.fs.mbg.model.FsTaskSettExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from fs_task_sett
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from fs_task_sett
+    where TASK_DATE = #{taskDate,jdbcType=INTEGER}
+      and TASK_WORK_SN = #{taskWorkSn,jdbcType=INTEGER}
+      and TASK_PHASE = #{taskPhase,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="map">
+    delete from fs_task_sett
+    where TASK_DATE = #{taskDate,jdbcType=INTEGER}
+      and TASK_WORK_SN = #{taskWorkSn,jdbcType=INTEGER}
+      and TASK_PHASE = #{taskPhase,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.x.fs.mbg.model.FsTaskSettExample">
+    delete from fs_task_sett
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.x.fs.mbg.model.FsTaskSett">
+    insert into fs_task_sett (TASK_DATE, TASK_WORK_SN, TASK_PHASE, 
+      WF_GUID, TASK_PHASE_NAME, TASK_STATUS, 
+      TASK_CONTENT, ERR_CODE, ERR_DESC, 
+      BGN_TIME, END_TIME)
+    values (#{taskDate,jdbcType=INTEGER}, #{taskWorkSn,jdbcType=INTEGER}, #{taskPhase,jdbcType=INTEGER}, 
+      #{wfGuid,jdbcType=VARCHAR}, #{taskPhaseName,jdbcType=VARCHAR}, #{taskStatus,jdbcType=VARCHAR}, 
+      #{taskContent,jdbcType=VARCHAR}, #{errCode,jdbcType=INTEGER}, #{errDesc,jdbcType=VARCHAR}, 
+      #{bgnTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.x.fs.mbg.model.FsTaskSett">
+    insert into fs_task_sett
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="taskDate != null">
+        TASK_DATE,
+      </if>
+      <if test="taskWorkSn != null">
+        TASK_WORK_SN,
+      </if>
+      <if test="taskPhase != null">
+        TASK_PHASE,
+      </if>
+      <if test="wfGuid != null">
+        WF_GUID,
+      </if>
+      <if test="taskPhaseName != null">
+        TASK_PHASE_NAME,
+      </if>
+      <if test="taskStatus != null">
+        TASK_STATUS,
+      </if>
+      <if test="taskContent != null">
+        TASK_CONTENT,
+      </if>
+      <if test="errCode != null">
+        ERR_CODE,
+      </if>
+      <if test="errDesc != null">
+        ERR_DESC,
+      </if>
+      <if test="bgnTime != null">
+        BGN_TIME,
+      </if>
+      <if test="endTime != null">
+        END_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="taskDate != null">
+        #{taskDate,jdbcType=INTEGER},
+      </if>
+      <if test="taskWorkSn != null">
+        #{taskWorkSn,jdbcType=INTEGER},
+      </if>
+      <if test="taskPhase != null">
+        #{taskPhase,jdbcType=INTEGER},
+      </if>
+      <if test="wfGuid != null">
+        #{wfGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="taskPhaseName != null">
+        #{taskPhaseName,jdbcType=VARCHAR},
+      </if>
+      <if test="taskStatus != null">
+        #{taskStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="taskContent != null">
+        #{taskContent,jdbcType=VARCHAR},
+      </if>
+      <if test="errCode != null">
+        #{errCode,jdbcType=INTEGER},
+      </if>
+      <if test="errDesc != null">
+        #{errDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="bgnTime != null">
+        #{bgnTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.x.fs.mbg.model.FsTaskSettExample" resultType="java.lang.Long">
+    select count(*) from fs_task_sett
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update fs_task_sett
+    <set>
+      <if test="record.taskDate != null">
+        TASK_DATE = #{record.taskDate,jdbcType=INTEGER},
+      </if>
+      <if test="record.taskWorkSn != null">
+        TASK_WORK_SN = #{record.taskWorkSn,jdbcType=INTEGER},
+      </if>
+      <if test="record.taskPhase != null">
+        TASK_PHASE = #{record.taskPhase,jdbcType=INTEGER},
+      </if>
+      <if test="record.wfGuid != null">
+        WF_GUID = #{record.wfGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.taskPhaseName != null">
+        TASK_PHASE_NAME = #{record.taskPhaseName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.taskStatus != null">
+        TASK_STATUS = #{record.taskStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.taskContent != null">
+        TASK_CONTENT = #{record.taskContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.errCode != null">
+        ERR_CODE = #{record.errCode,jdbcType=INTEGER},
+      </if>
+      <if test="record.errDesc != null">
+        ERR_DESC = #{record.errDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bgnTime != null">
+        BGN_TIME = #{record.bgnTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endTime != null">
+        END_TIME = #{record.endTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update fs_task_sett
+    set TASK_DATE = #{record.taskDate,jdbcType=INTEGER},
+      TASK_WORK_SN = #{record.taskWorkSn,jdbcType=INTEGER},
+      TASK_PHASE = #{record.taskPhase,jdbcType=INTEGER},
+      WF_GUID = #{record.wfGuid,jdbcType=VARCHAR},
+      TASK_PHASE_NAME = #{record.taskPhaseName,jdbcType=VARCHAR},
+      TASK_STATUS = #{record.taskStatus,jdbcType=VARCHAR},
+      TASK_CONTENT = #{record.taskContent,jdbcType=VARCHAR},
+      ERR_CODE = #{record.errCode,jdbcType=INTEGER},
+      ERR_DESC = #{record.errDesc,jdbcType=VARCHAR},
+      BGN_TIME = #{record.bgnTime,jdbcType=TIMESTAMP},
+      END_TIME = #{record.endTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.x.fs.mbg.model.FsTaskSett">
+    update fs_task_sett
+    <set>
+      <if test="wfGuid != null">
+        WF_GUID = #{wfGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="taskPhaseName != null">
+        TASK_PHASE_NAME = #{taskPhaseName,jdbcType=VARCHAR},
+      </if>
+      <if test="taskStatus != null">
+        TASK_STATUS = #{taskStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="taskContent != null">
+        TASK_CONTENT = #{taskContent,jdbcType=VARCHAR},
+      </if>
+      <if test="errCode != null">
+        ERR_CODE = #{errCode,jdbcType=INTEGER},
+      </if>
+      <if test="errDesc != null">
+        ERR_DESC = #{errDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="bgnTime != null">
+        BGN_TIME = #{bgnTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        END_TIME = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where TASK_DATE = #{taskDate,jdbcType=INTEGER}
+      and TASK_WORK_SN = #{taskWorkSn,jdbcType=INTEGER}
+      and TASK_PHASE = #{taskPhase,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.x.fs.mbg.model.FsTaskSett">
+    update fs_task_sett
+    set WF_GUID = #{wfGuid,jdbcType=VARCHAR},
+      TASK_PHASE_NAME = #{taskPhaseName,jdbcType=VARCHAR},
+      TASK_STATUS = #{taskStatus,jdbcType=VARCHAR},
+      TASK_CONTENT = #{taskContent,jdbcType=VARCHAR},
+      ERR_CODE = #{errCode,jdbcType=INTEGER},
+      ERR_DESC = #{errDesc,jdbcType=VARCHAR},
+      BGN_TIME = #{bgnTime,jdbcType=TIMESTAMP},
+      END_TIME = #{endTime,jdbcType=TIMESTAMP}
+    where TASK_DATE = #{taskDate,jdbcType=INTEGER}
+      and TASK_WORK_SN = #{taskWorkSn,jdbcType=INTEGER}
+      and TASK_PHASE = #{taskPhase,jdbcType=INTEGER}
+  </update>
+</mapper>

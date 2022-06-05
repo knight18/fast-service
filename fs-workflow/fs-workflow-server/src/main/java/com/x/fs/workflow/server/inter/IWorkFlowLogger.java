@@ -8,7 +8,7 @@ public interface IWorkFlowLogger {
     void setFirstResult(String msgCode, String msg);
 
     /**
-     * 第二结果集设置，setSecondResultBegin, addRow,setColValue,setColValue,saveRow,setSecondResultEnd是配套使用的。
+     * 第二结果集设置
      *
      * @param colNum
      * @param colNames

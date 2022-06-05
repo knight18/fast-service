@@ -105,14 +105,14 @@ public class WorkFlowTrackerServiceImpl implements DisposableBean, Runnable, Com
                 // 2、对于已经在运行的工作调度任务，无论当前是否处理工作调度检查时间范围内都需要进行检查，直到所有工作任务执行完成
                 if (needAdjustCheckTime || (time.compareTo(this.checkBeginTime) > 0 && time.compareTo(this.checkEndTime) <= 0)) {
 
-                    this.checkWorkUnit();
+                    this.checkWorkFlow();
 
                     if (needAdjustCheckTime) {
                         originCheckIntervalTime = 500;
                     }
                 }
             } catch (Exception e) {
-                log.error("work flow tracker thread do checkWorkUnit exception: [{}]. stackTrace:[{}]", e.getMessage(), e.getStackTrace());
+                log.error("work flow tracker thread do checkWorkFlow exception: [{}]. stackTrace:[{}]", e.getMessage(), e.getStackTrace());
             }
         }
         log.info("work flow tracker is exit.");
@@ -136,7 +136,7 @@ public class WorkFlowTrackerServiceImpl implements DisposableBean, Runnable, Com
      * @throws Exception on error
      */
     @Override
-    public void run(String... args){
+    public void run(String... args) {
         startCheckFlag.set(true);
         log.info("工作流程的调度任务检查的服务开始启动。");
     }
@@ -145,7 +145,8 @@ public class WorkFlowTrackerServiceImpl implements DisposableBean, Runnable, Com
     public class Task {
         public String taskName;
         public WorkFlowExecutor workFlowExecutor;
-        public boolean isCanceFlag;       // 如果发起强制关闭，需记下来，等下一轮检查时进行检查是否停止掉了。
+        //如果发起强制关闭，需记下来，等下一轮检查时进行检查是否停止掉了。
+        public boolean isCanceFlag;
         WorkFlowTrackerDto workFlowTrackerDto;
 
         Task(String taskName, WorkFlowExecutor workFlowExecutor, WorkFlowTrackerDto workFlowTrackerDto) {
@@ -190,6 +191,7 @@ public class WorkFlowTrackerServiceImpl implements DisposableBean, Runnable, Com
             }
             this.nowData = inputParam;
         }
+
         boolean isNeedRemove() {
             return remove;
         }
@@ -249,7 +251,7 @@ public class WorkFlowTrackerServiceImpl implements DisposableBean, Runnable, Com
         this.backgroundSvrInitFlag.set(true);
     }
 
-    public static WorkFlowTrackerServiceImpl getWorkUnitTracker() {
+    public static WorkFlowTrackerServiceImpl getWorkFlowTracker() {
         return owner;
     }
 
@@ -333,7 +335,7 @@ public class WorkFlowTrackerServiceImpl implements DisposableBean, Runnable, Com
     }
 
 
-    private void checkWorkUnit() {
+    private void checkWorkFlow() {
         List<WorkFlowTrackerOneDto> unWorkFlow;
         try {
             unWorkFlow = fsWorkFlowTrackerAtom.selectUnFinishWorkFlow();
@@ -548,24 +550,24 @@ public class WorkFlowTrackerServiceImpl implements DisposableBean, Runnable, Com
     }
 
 
-    public WorkFlowTrackerDto allocWorkUnit(WorkFlowRunnerParam inputParam) {
-        WorkFlowTrackerDto workUnitTracker = new WorkFlowTrackerDto();
-        workUnitTracker.setWfStatus(WorkFlowConstant.WF_STATUS_BEGIN);
-        workUnitTracker.setWfGuid(UniqueId.getInstance().nextId().toString());
-        workUnitTracker.setWfRequestText(inputParam.getWfRequestText());
+    public WorkFlowTrackerDto allocWorkFlow(WorkFlowRunnerParam inputParam) {
+        WorkFlowTrackerDto workFlowTrackerDto = new WorkFlowTrackerDto();
+        workFlowTrackerDto.setWfStatus(WorkFlowConstant.WF_STATUS_BEGIN);
+        workFlowTrackerDto.setWfGuid(UniqueId.getInstance().nextId().toString());
+        workFlowTrackerDto.setWfRequestText(inputParam.getWfRequestText());
         Integer paramWuGraceTime = inputParam.getWfGraceTime() == null ? this.wfGraceTime : inputParam.getWfGraceTime();
-        workUnitTracker.setWfGraceTime((long) paramWuGraceTime);
-        workUnitTracker.setWfLeaseCount(0);
-        workUnitTracker.setWfSignal(0);
+        workFlowTrackerDto.setWfGraceTime((long) paramWuGraceTime);
+        workFlowTrackerDto.setWfLeaseCount(0);
+        workFlowTrackerDto.setWfSignal(0);
         String wuParentGuid = inputParam.getWfParentGuid();
-        workUnitTracker.setWfParentGuid(wuParentGuid == null || wuParentGuid.isEmpty() ? " " : wuParentGuid);
-        workUnitTracker.setWfLeaseTime(this.wfLeaseTime);
-        workUnitTracker.setWfFunction(inputParam.getWfFunction());
-        workUnitTracker.setWfName(StringUtils.subStringByByte(inputParam.getWfName(), 64));
-        return workUnitTracker;
+        workFlowTrackerDto.setWfParentGuid(wuParentGuid == null || wuParentGuid.isEmpty() ? " " : wuParentGuid);
+        workFlowTrackerDto.setWfLeaseTime(this.wfLeaseTime);
+        workFlowTrackerDto.setWfFunction(inputParam.getWfFunction());
+        workFlowTrackerDto.setWfName(StringUtils.subStringByByte(inputParam.getWfName(), 64));
+        return workFlowTrackerDto;
     }
 
-    public WorkFlowRunnerResult runWorkUnit(WorkFlowTrackerDto inputParam) {
+    public WorkFlowRunnerResult runWorkFlow(WorkFlowTrackerDto inputParam) {
         // 1、必须先检查背景线程是否已经完成起来
         if (!this.backgroundSvrInitFlag.get()) {
             log.error("工作单元调度服务未启动！接受到调度请求:[{}]", inputParam.getWfName());
@@ -578,10 +580,10 @@ public class WorkFlowTrackerServiceImpl implements DisposableBean, Runnable, Com
                     formatTime(this.checkBeginTime), formatTime(this.checkEndTime), time);
             throw new FsServiceException("当前处于非工作调度服务时间内。[begin_time:" + formatTime(this.checkBeginTime) + ", end_time:" + formatTime(this.checkEndTime) + ",current_time:" + time + "]");
         }
-        return runWorkUnitExecutor(inputParam);
+        return runWorkFlowExecutor(inputParam);
     }
 
-    public WorkFlowRunnerResult runRemoteWorkUnit(WorkFlowRunnerExtParam inputParam) {
+    public WorkFlowRunnerResult runRemoteWorkFlow(WorkFlowRunnerExtParam inputParam) {
         WorkFlowTrackerDto workFlowTrackerDto;
         try {
             workFlowTrackerDto = new WorkFlowTrackerDto();
@@ -594,16 +596,16 @@ public class WorkFlowTrackerServiceImpl implements DisposableBean, Runnable, Com
             workFlowTrackerDto.setWfSignal(0);
             String wuParentGuid = inputParam.getWfParentGuid();
             workFlowTrackerDto.setWfParentGuid(wuParentGuid == null || wuParentGuid.isEmpty() ? " " : wuParentGuid);
-            workFlowTrackerDto.setWfLeaseTime((long) this.wfLeaseTime);
+            workFlowTrackerDto.setWfLeaseTime(this.wfLeaseTime);
             workFlowTrackerDto.setWfFunction(inputParam.getWfFunction());
             workFlowTrackerDto.setWfName(inputParam.getWfName());
         } catch (Exception e) {
             throw new FsServiceException(e.getMessage());
         }
-        return runWorkUnitExecutor(workFlowTrackerDto);
+        return runWorkFlowExecutor(workFlowTrackerDto);
     }
 
-    private WorkFlowRunnerResult runWorkUnitExecutor(WorkFlowTrackerDto inputParam) {
+    private WorkFlowRunnerResult runWorkFlowExecutor(WorkFlowTrackerDto inputParam) {
         try {
             FsWorkFlowTracker fsWorkFlowTracker = new FsWorkFlowTracker();
             BeanUtils.copyProperties(inputParam, fsWorkFlowTracker);

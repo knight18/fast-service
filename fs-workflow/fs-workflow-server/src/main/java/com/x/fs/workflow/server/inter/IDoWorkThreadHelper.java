@@ -27,22 +27,22 @@ public interface IDoWorkThreadHelper {
      * wfLogger.setFirstResult("0","processing");
      * <p>
      * WorkFlowLogSchedule wfSchedule = new WorkFlowLogSchedule(wfLogId);
-     * wfSchedule.start("工作单元处理开始");
-     * wfSchedule.step(5,"0","工作单元处理中...");
-     * wfSchedule.finish("工作单元处理结束");
+     * wfSchedule.start("工作流程处理开始");
+     * wfSchedule.step(5,"0","工作流程处理中...");
+     * wfSchedule.finish("工作流程处理结束");
      *
      * @param
      * @return 返回boolean
      */
     IWorkFlowLogger getWorkFlowLogger();
 
+    ContextDTO getContext();
+    
     /**
-     * 业务完成在提交事务前时进行检查，如果是返回false表示当前工作单超过租约期，外部已发送强制终止工作单元指令，当前的业务必须终止掉。
-     *
+     * 业务完成在提交事务前时进行检查，如果是返回false表示当前工作流程单超过租约期，外部已发送强制终止工作流程指令，当前的业务必须终止掉
      * @return
      */
     boolean dbFence();
 
-    ContextDTO getContext();
 
 }

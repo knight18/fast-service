@@ -3,11 +3,11 @@ package com.x.fs.workflow.server.executor;
 import com.google.gson.JsonObject;
 import com.x.fs.base.transaction.FsTransactionManager;
 import com.x.fs.base.utils.DateUtils;
+import com.x.fs.base.utils.FsApplicationContext;
 import com.x.fs.base.utils.StringUtils;
 import com.x.fs.workflow.server.atom.FsWorkFlowLogAtom;
 import com.x.fs.workflow.server.inter.IWorkFlowLogger;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 
@@ -21,9 +21,6 @@ import java.util.concurrent.atomic.AtomicLong;
 @Slf4j
 public class WorkFlowLogger implements IWorkFlowLogger {
 
-    @Autowired
-    private FsWorkFlowLogAtom fsWorkFlowLogAtom;
-
     private final String wfGuid;
 
     private final String defaultDataSourceId;
@@ -33,6 +30,7 @@ public class WorkFlowLogger implements IWorkFlowLogger {
     private JsonObject row;
     private Integer rowID;
     private AtomicLong wfLogId = new AtomicLong(0);
+
 
     public WorkFlowLogger(String wfGuid, String defaultDataSourceId) {
         this.wfGuid = wfGuid;
@@ -104,7 +102,7 @@ public class WorkFlowLogger implements IWorkFlowLogger {
 
     public void writeWorkFlowLog(String logText) {
         try (FsTransactionManager fsTransactionManager = new FsTransactionManager(this.defaultDataSourceId, Propagation.REQUIRES_NEW, Isolation.DEFAULT)) {
-            fsWorkFlowLogAtom.saveWorkFlowLog(this.wfLogId.getAndIncrement(), logText, this.getWfGuid(), DateUtils.getTimestamp());
+            FsApplicationContext.getBean(FsWorkFlowLogAtom.class).saveWorkFlowLog(this.wfLogId.getAndIncrement(), logText, this.getWfGuid(), DateUtils.getTimestamp());
             fsTransactionManager.doSuccess();
         } catch (Exception e) {
             log.error("save WorkFlowLog error! errMsg:{}.callstack:{}", e.getMessage(), e.getStackTrace());

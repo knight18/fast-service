@@ -3,6 +3,7 @@ package com.x.fs.workflow.server.executor;
 import com.x.fs.base.dto.ContextDTO;
 import com.x.fs.base.utils.FsApplicationContext;
 import com.x.fs.workflow.server.dto.WorkFlowTrackerDto;
+import com.x.fs.workflow.server.inter.IDoWork;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.Callable;
@@ -35,7 +36,7 @@ public class WorkFlowExecutor {
          * @throws Exception if unable to compute a result
          */
         @Override
-        public Integer call() throws Exception {
+        public Integer call() {
             do {
                 WorkFlowLoggerFactory workFlowLoggerFactory;
 
@@ -43,12 +44,30 @@ public class WorkFlowExecutor {
                     workFlowLoggerFactory = FsApplicationContext.getBean(WorkFlowLoggerFactory.class);
                 } catch (Exception e) {
                     e.printStackTrace();
-                    log.error("未获取到工作单元日志bean:WorkUnitLoggerFactory。 {}", e);
+                    log.error("未获取到工作流程日志bean:WorkFlowLoggerFactory。 {}", e);
                     break;
                 }
-                WorkFlowLogger workUnitLogger = workFlowLoggerFactory.CreateWorkUnitLogger(workFlowTrackerDto.getWfGuid());
-                doWorkThreadHelper.setWuLogger(workUnitLogger);
+                WorkFlowLogger workFlowLogger = workFlowLoggerFactory.CreateWorkFlowLogger(workFlowTrackerDto.getWfGuid());
+                doWorkThreadHelper.setWuLogger(workFlowLogger);
                 doWorkThreadHelper.setContext(contextDTO);
+
+                IDoWork doWork;
+                try {
+                    doWork = FsApplicationContext.getBean(workFlowTrackerDto.getWfFunction());
+                } catch (Exception e) {
+                    doWorkThreadHelper.getWorkFlowLogger().setFirstResult("-1", "获取对应功能号失败！[" + workFlowTrackerDto.getWfFunction() + "]" + e.getMessage());
+                    break;
+                }
+
+                try {
+                    doWork.doWork(workFlowTrackerDto.getWfRequestText(), doWorkThreadHelper);
+                } catch (Throwable e) {
+                    e.printStackTrace();
+                    // 不应该干涉业务的异常。不写业务失败，以免造成记录重复!
+                    log.error("执行工作单元出现异常.[{}]", e.getMessage());
+                } finally {
+//                    ContextUtils.clearContext();
+                }
             } while (false);
             doWorkThreadHelper.release();
             return 0;
@@ -113,7 +132,7 @@ public class WorkFlowExecutor {
      */
     private void setContext() {
         try {
-           // 本地线程功能暂未实现，待后续实现
+            // 本地线程功能暂未实现，待后续实现
         } catch (Exception e) {
             log.error("ContextUtils.getContext() exception. errMsg:" + e.getMessage());
         }

@@ -33,12 +33,12 @@ public class FsWorkFlowTrackerAtomImpl implements FsWorkFlowTrackerAtom {
     }
 
     @Override
-    public int updateWfSignalByid(String wfGuid, Integer wuSignal, Integer wuLeaseCount) {
-        return fsWorkFlowTrackerMapperExt.updateWfSignalByid(wfGuid, wuSignal, wuLeaseCount);
+    public int updateWfSignalByid(String wfGuid, Integer wfSignal, Integer wfLeaseCount) {
+        return fsWorkFlowTrackerMapperExt.updateWfSignalByid(wfGuid, wfSignal, wfLeaseCount);
     }
 
     /**
-     * 查询所有未结束工作单元信息
+     * 查询所有未结束工作流程信息
      *
      * @return
      */
@@ -48,7 +48,7 @@ public class FsWorkFlowTrackerAtomImpl implements FsWorkFlowTrackerAtom {
     }
 
     /**
-     * 查询工作单元状态信息
+     * 查询工作流程状态信息
      *
      * @param wfGuids 多个值，用逗号隔开
      * @return

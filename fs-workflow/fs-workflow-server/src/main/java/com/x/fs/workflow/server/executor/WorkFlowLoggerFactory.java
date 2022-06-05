@@ -15,7 +15,7 @@ public class WorkFlowLoggerFactory {
     @Value("${jdbc.defaultDataSourceId}")
     String defaultDataSourceId;
 
-    public WorkFlowLogger CreateWorkUnitLogger(String wuGuid) {
+    public WorkFlowLogger CreateWorkFlowLogger(String wuGuid) {
         return new WorkFlowLogger(wuGuid, defaultDataSourceId);
     }
 }

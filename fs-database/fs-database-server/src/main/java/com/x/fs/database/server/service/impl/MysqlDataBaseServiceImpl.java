@@ -31,6 +31,7 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.*;
 import java.util.concurrent.RejectedExecutionException;
+import java.util.stream.Collectors;
 
 /**
  * Mysql数据库备份
@@ -453,6 +454,12 @@ public class MysqlDataBaseServiceImpl implements MysqlDataBaseService {
         } catch (Exception exception) {
             throw new FsServiceException("无法获取[" + databaseName + "]数据库表锁定信息[" + exception.getMessage() + "]");
         }
+
+        // 过滤掉 fs_work_flow_tracker fs_work_flow_log 表
+        lockedTables = lockedTables.stream().filter(tableName ->
+                StringUtils.isNotBlank(tableName) && !com.x.fs.base.utils.StringUtils.equalAnyone(tableName.toLowerCase().trim(), "fs_work_flow_log", "fs_work_flow_tracker")
+        ).collect(Collectors.toList());
+
         if (!lockedTables.isEmpty()) {
             StringJoiner string = new StringJoiner(",");
             lockedTables.forEach(string::add);

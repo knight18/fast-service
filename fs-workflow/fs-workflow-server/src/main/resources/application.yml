@@ -7,7 +7,7 @@ server:
         secure: true
         path: /
         http-only: true
-      timeout: 100m #session超时时间
+      timeout: 1000m #session超时时间
   tomcat:
     # 最大可被连接数
     max-connections: 10000
@@ -36,6 +36,23 @@ mybatis:
 feign:
   okhttp:
     enabled: true
+ribbon:
+  ConnectTimeout: 60000 #服务请求连接超时时间（毫秒）
+  ReadTimeout: 60000 #服务请求处理超时时间（毫秒）
 
+#  client:
+#    config:
+#      default:
+#        connect-timeout: 600000
+#        read-timeout: 600000
 
+#hystrix:
+#  command:
+#    default:
+#      execution:
+#        timeout:
+#          enabled: true
+#        isolation:
+#          thread:
+#            timeoutInMilliseconds: 30000
 

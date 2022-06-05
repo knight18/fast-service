@@ -28,11 +28,18 @@
         <!-- <setting name="defaultStatementTimeout" value="600000" /> -->
     </settings>
 
+    <typeHandlers>
+        <!-- 注册自定义类型处理器 -->
+        <!--		<typeHandler handler=""/>-->
+
+        <!-- 也可以使用自动查找类型处理器(注意：此时JDBC 的类型仅能通过注解方式来指定) -->
+        <!-- <package name="org.mybatis.example"/> -->
+    </typeHandlers>
 
     <!--插件配置 -->
     <plugins>
         <plugin interceptor="com.x.fs.base.mybatis.SqlLogInterceptor">
-            <property name="logOpenFlag" value="false"/>
+            <property name="logOpenFlag" value="true"/>
             <!--   logFilePath  记录的是日志所在的路径，并不少是文件名称         -->
             <property name="logFilePath" value="C:\\ProgramFilesUser\\ProjectLog"/>
             <!--   fileName  文件名称,不含类型         -->

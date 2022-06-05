@@ -7,7 +7,7 @@ import com.x.fs.common.exception.FsServiceException;
  *
  * @author x
  */
-public class StringUtils {
+public class StringUtils extends org.apache.commons.lang.StringUtils{
 
     /**
      * 检查字符，有无空格，回车等其他符号

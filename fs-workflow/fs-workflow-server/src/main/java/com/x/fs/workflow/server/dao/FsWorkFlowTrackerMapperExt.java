@@ -17,7 +17,7 @@ public interface FsWorkFlowTrackerMapperExt extends FsWorkFlowTrackerMapper {
     int updateWfStatusByUid(@Param("wfGuid") String wfGuid,@Param("wfStatus") String wfStatus);
 
 
-    int updateWfSignalByid(@Param("wfGuid")String wfGuid, @Param("wuSignal")Integer wuSignal, @Param("wuLeaseCount")Integer wuLeaseCount);
+    int updateWfSignalByid(@Param("wfGuid")String wfGuid, @Param("wfSignal")Integer wfSignal, @Param("wfLeaseCount")Integer wfLeaseCount);
 
     List<WorkFlowTrackerOneDto> selectUnFinishWorkFlow();
 

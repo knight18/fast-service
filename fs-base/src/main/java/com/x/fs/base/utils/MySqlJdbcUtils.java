@@ -72,10 +72,10 @@ public class MySqlJdbcUtils {
 
     public static void main(String[] args) {
         ConnectInfoDTO connectInfo = new ConnectInfoDTO();
-        connectInfo.setHost("ip");
+        connectInfo.setHost("nacos");
         connectInfo.setPort(3306);
-        connectInfo.setUserName("reader");
-        connectInfo.setPassWord("reader");
+        connectInfo.setUserName("root");
+        connectInfo.setPassWord("root");
 
         List<String> query = (List<String>) executeQuery(connectInfo, "fsdata", "SELECT DICT_NO  FROM FS_SYS_DICT",
                 r -> {

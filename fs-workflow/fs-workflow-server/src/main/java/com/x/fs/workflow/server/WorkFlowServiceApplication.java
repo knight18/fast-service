@@ -18,8 +18,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @SpringBootApplication(exclude = { DataSourceAutoConfiguration.class })
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @EnableTransactionManagement
-@ComponentScan("com.x.fs.**")
-//@Configuration
+@ComponentScan("com.x.fs.**.**")
 @MapperScan(value = {"com.x.fs.**.dao","com.x.fs.**.mapper"})
 public class WorkFlowServiceApplication {
 

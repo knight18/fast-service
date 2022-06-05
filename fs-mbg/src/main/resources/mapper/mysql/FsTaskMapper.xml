@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.x.fs.mbg.mapper.FsTaskMapper">
+  <resultMap id="BaseResultMap" type="com.x.fs.mbg.model.FsTask">
+    <id column="TASKS" jdbcType="INTEGER" property="tasks" />
+    <result column="TASK_PHASE" jdbcType="INTEGER" property="taskPhase" />
+    <result column="TASKS_NAME" jdbcType="VARCHAR" property="tasksName" />
+    <result column="TASK_JOB_TYPE" jdbcType="VARCHAR" property="taskJobType" />
+    <result column="MULTITHREAD" jdbcType="VARCHAR" property="multithread" />
+    <result column="PREPROC" jdbcType="VARCHAR" property="preproc" />
+    <result column="MAINPROC" jdbcType="VARCHAR" property="mainproc" />
+    <result column="TAILPROC" jdbcType="VARCHAR" property="tailproc" />
+    <result column="TIMEOUT" jdbcType="INTEGER" property="timeout" />
+    <result column="THREAD_NUM" jdbcType="INTEGER" property="threadNum" />
+    <result column="THREAD_PAR_NUM" jdbcType="INTEGER" property="threadParNum" />
+    <result column="ORDINAL" jdbcType="INTEGER" property="ordinal" />
+    <result column="EXT_PARA" jdbcType="VARCHAR" property="extPara" />
+    <result column="TASK_BEAN_NAME" jdbcType="VARCHAR" property="taskBeanName" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    TASKS, TASK_PHASE, TASKS_NAME, TASK_JOB_TYPE, MULTITHREAD, PREPROC, MAINPROC, TAILPROC, 
+    TIMEOUT, THREAD_NUM, THREAD_PAR_NUM, ORDINAL, EXT_PARA, TASK_BEAN_NAME
+  </sql>
+  <select id="selectByExample" parameterType="com.x.fs.mbg.model.FsTaskExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from fs_task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from fs_task
+    where TASKS = #{tasks,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from fs_task
+    where TASKS = #{tasks,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.x.fs.mbg.model.FsTaskExample">
+    delete from fs_task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.x.fs.mbg.model.FsTask">
+    insert into fs_task (TASKS, TASK_PHASE, TASKS_NAME, 
+      TASK_JOB_TYPE, MULTITHREAD, PREPROC, 
+      MAINPROC, TAILPROC, TIMEOUT, 
+      THREAD_NUM, THREAD_PAR_NUM, ORDINAL, 
+      EXT_PARA, TASK_BEAN_NAME)
+    values (#{tasks,jdbcType=INTEGER}, #{taskPhase,jdbcType=INTEGER}, #{tasksName,jdbcType=VARCHAR}, 
+      #{taskJobType,jdbcType=VARCHAR}, #{multithread,jdbcType=VARCHAR}, #{preproc,jdbcType=VARCHAR}, 
+      #{mainproc,jdbcType=VARCHAR}, #{tailproc,jdbcType=VARCHAR}, #{timeout,jdbcType=INTEGER}, 
+      #{threadNum,jdbcType=INTEGER}, #{threadParNum,jdbcType=INTEGER}, #{ordinal,jdbcType=INTEGER}, 
+      #{extPara,jdbcType=VARCHAR}, #{taskBeanName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.x.fs.mbg.model.FsTask">
+    insert into fs_task
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="tasks != null">
+        TASKS,
+      </if>
+      <if test="taskPhase != null">
+        TASK_PHASE,
+      </if>
+      <if test="tasksName != null">
+        TASKS_NAME,
+      </if>
+      <if test="taskJobType != null">
+        TASK_JOB_TYPE,
+      </if>
+      <if test="multithread != null">
+        MULTITHREAD,
+      </if>
+      <if test="preproc != null">
+        PREPROC,
+      </if>
+      <if test="mainproc != null">
+        MAINPROC,
+      </if>
+      <if test="tailproc != null">
+        TAILPROC,
+      </if>
+      <if test="timeout != null">
+        TIMEOUT,
+      </if>
+      <if test="threadNum != null">
+        THREAD_NUM,
+      </if>
+      <if test="threadParNum != null">
+        THREAD_PAR_NUM,
+      </if>
+      <if test="ordinal != null">
+        ORDINAL,
+      </if>
+      <if test="extPara != null">
+        EXT_PARA,
+      </if>
+      <if test="taskBeanName != null">
+        TASK_BEAN_NAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="tasks != null">
+        #{tasks,jdbcType=INTEGER},
+      </if>
+      <if test="taskPhase != null">
+        #{taskPhase,jdbcType=INTEGER},
+      </if>
+      <if test="tasksName != null">
+        #{tasksName,jdbcType=VARCHAR},
+      </if>
+      <if test="taskJobType != null">
+        #{taskJobType,jdbcType=VARCHAR},
+      </if>
+      <if test="multithread != null">
+        #{multithread,jdbcType=VARCHAR},
+      </if>
+      <if test="preproc != null">
+        #{preproc,jdbcType=VARCHAR},
+      </if>
+      <if test="mainproc != null">
+        #{mainproc,jdbcType=VARCHAR},
+      </if>
+      <if test="tailproc != null">
+        #{tailproc,jdbcType=VARCHAR},
+      </if>
+      <if test="timeout != null">
+        #{timeout,jdbcType=INTEGER},
+      </if>
+      <if test="threadNum != null">
+        #{threadNum,jdbcType=INTEGER},
+      </if>
+      <if test="threadParNum != null">
+        #{threadParNum,jdbcType=INTEGER},
+      </if>
+      <if test="ordinal != null">
+        #{ordinal,jdbcType=INTEGER},
+      </if>
+      <if test="extPara != null">
+        #{extPara,jdbcType=VARCHAR},
+      </if>
+      <if test="taskBeanName != null">
+        #{taskBeanName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.x.fs.mbg.model.FsTaskExample" resultType="java.lang.Long">
+    select count(*) from fs_task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update fs_task
+    <set>
+      <if test="record.tasks != null">
+        TASKS = #{record.tasks,jdbcType=INTEGER},
+      </if>
+      <if test="record.taskPhase != null">
+        TASK_PHASE = #{record.taskPhase,jdbcType=INTEGER},
+      </if>
+      <if test="record.tasksName != null">
+        TASKS_NAME = #{record.tasksName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.taskJobType != null">
+        TASK_JOB_TYPE = #{record.taskJobType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.multithread != null">
+        MULTITHREAD = #{record.multithread,jdbcType=VARCHAR},
+      </if>
+      <if test="record.preproc != null">
+        PREPROC = #{record.preproc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mainproc != null">
+        MAINPROC = #{record.mainproc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tailproc != null">
+        TAILPROC = #{record.tailproc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.timeout != null">
+        TIMEOUT = #{record.timeout,jdbcType=INTEGER},
+      </if>
+      <if test="record.threadNum != null">
+        THREAD_NUM = #{record.threadNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.threadParNum != null">
+        THREAD_PAR_NUM = #{record.threadParNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.ordinal != null">
+        ORDINAL = #{record.ordinal,jdbcType=INTEGER},
+      </if>
+      <if test="record.extPara != null">
+        EXT_PARA = #{record.extPara,jdbcType=VARCHAR},
+      </if>
+      <if test="record.taskBeanName != null">
+        TASK_BEAN_NAME = #{record.taskBeanName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update fs_task
+    set TASKS = #{record.tasks,jdbcType=INTEGER},
+      TASK_PHASE = #{record.taskPhase,jdbcType=INTEGER},
+      TASKS_NAME = #{record.tasksName,jdbcType=VARCHAR},
+      TASK_JOB_TYPE = #{record.taskJobType,jdbcType=VARCHAR},
+      MULTITHREAD = #{record.multithread,jdbcType=VARCHAR},
+      PREPROC = #{record.preproc,jdbcType=VARCHAR},
+      MAINPROC = #{record.mainproc,jdbcType=VARCHAR},
+      TAILPROC = #{record.tailproc,jdbcType=VARCHAR},
+      TIMEOUT = #{record.timeout,jdbcType=INTEGER},
+      THREAD_NUM = #{record.threadNum,jdbcType=INTEGER},
+      THREAD_PAR_NUM = #{record.threadParNum,jdbcType=INTEGER},
+      ORDINAL = #{record.ordinal,jdbcType=INTEGER},
+      EXT_PARA = #{record.extPara,jdbcType=VARCHAR},
+      TASK_BEAN_NAME = #{record.taskBeanName,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.x.fs.mbg.model.FsTask">
+    update fs_task
+    <set>
+      <if test="taskPhase != null">
+        TASK_PHASE = #{taskPhase,jdbcType=INTEGER},
+      </if>
+      <if test="tasksName != null">
+        TASKS_NAME = #{tasksName,jdbcType=VARCHAR},
+      </if>
+      <if test="taskJobType != null">
+        TASK_JOB_TYPE = #{taskJobType,jdbcType=VARCHAR},
+      </if>
+      <if test="multithread != null">
+        MULTITHREAD = #{multithread,jdbcType=VARCHAR},
+      </if>
+      <if test="preproc != null">
+        PREPROC = #{preproc,jdbcType=VARCHAR},
+      </if>
+      <if test="mainproc != null">
+        MAINPROC = #{mainproc,jdbcType=VARCHAR},
+      </if>
+      <if test="tailproc != null">
+        TAILPROC = #{tailproc,jdbcType=VARCHAR},
+      </if>
+      <if test="timeout != null">
+        TIMEOUT = #{timeout,jdbcType=INTEGER},
+      </if>
+      <if test="threadNum != null">
+        THREAD_NUM = #{threadNum,jdbcType=INTEGER},
+      </if>
+      <if test="threadParNum != null">
+        THREAD_PAR_NUM = #{threadParNum,jdbcType=INTEGER},
+      </if>
+      <if test="ordinal != null">
+        ORDINAL = #{ordinal,jdbcType=INTEGER},
+      </if>
+      <if test="extPara != null">
+        EXT_PARA = #{extPara,jdbcType=VARCHAR},
+      </if>
+      <if test="taskBeanName != null">
+        TASK_BEAN_NAME = #{taskBeanName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where TASKS = #{tasks,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.x.fs.mbg.model.FsTask">
+    update fs_task
+    set TASK_PHASE = #{taskPhase,jdbcType=INTEGER},
+      TASKS_NAME = #{tasksName,jdbcType=VARCHAR},
+      TASK_JOB_TYPE = #{taskJobType,jdbcType=VARCHAR},
+      MULTITHREAD = #{multithread,jdbcType=VARCHAR},
+      PREPROC = #{preproc,jdbcType=VARCHAR},
+      MAINPROC = #{mainproc,jdbcType=VARCHAR},
+      TAILPROC = #{tailproc,jdbcType=VARCHAR},
+      TIMEOUT = #{timeout,jdbcType=INTEGER},
+      THREAD_NUM = #{threadNum,jdbcType=INTEGER},
+      THREAD_PAR_NUM = #{threadParNum,jdbcType=INTEGER},
+      ORDINAL = #{ordinal,jdbcType=INTEGER},
+      EXT_PARA = #{extPara,jdbcType=VARCHAR},
+      TASK_BEAN_NAME = #{taskBeanName,jdbcType=VARCHAR}
+    where TASKS = #{tasks,jdbcType=INTEGER}
+  </update>
+</mapper>

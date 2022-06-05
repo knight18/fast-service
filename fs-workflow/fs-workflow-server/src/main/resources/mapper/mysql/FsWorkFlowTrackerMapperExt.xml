@@ -151,7 +151,7 @@
         UPDATE  fs_work_flow_tracker
         <set>
             <if test='leaseCount != null '>
-                WF_LEASE_COUNT = #{wfLeaseCount,jdbcType=INTEGER},
+                WF_LEASE_COUNT = #{leaseCount,jdbcType=INTEGER},
             </if>
             WF_SIGNAL = #{signal,jdbcType=INTEGER}
         </set>

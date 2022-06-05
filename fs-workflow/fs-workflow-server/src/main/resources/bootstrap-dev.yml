@@ -2,7 +2,7 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: http://ip:8079
+        server-addr: http://nacos:8079
       config:
-        server-addr: http://ip:8079
+        server-addr: http://nacos:8079
         file-extension: yaml

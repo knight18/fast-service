@@ -32,7 +32,7 @@ public interface FsWorkFlowTrackerAtom {
      * @param wuLeaseCount
      * @return
      */
-    int updateWfSignalByid(String wfGuid, Integer wuSignal, Integer wuLeaseCount);
+    int updateWfSignalByid(String wfGuid, Integer wfSignal, Integer wfLeaseCount);
 
 
     /**
@@ -44,7 +44,7 @@ public interface FsWorkFlowTrackerAtom {
 
 
     /**
-     * 查询工作单元状态信息
+     * 查询工作流程状态信息
      * @param wfGuids  多个值，用逗号隔开
      * @return
      */

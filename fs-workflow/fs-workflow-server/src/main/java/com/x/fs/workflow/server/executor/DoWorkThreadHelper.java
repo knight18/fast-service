@@ -3,6 +3,7 @@ package com.x.fs.workflow.server.executor;
 import com.x.fs.base.dto.ContextDTO;
 import com.x.fs.workflow.server.inter.IDoWorkThreadHelper;
 import com.x.fs.workflow.server.inter.IWorkFlowLogger;
+import org.springframework.stereotype.Component;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -10,6 +11,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * @author x
  */
+@Component
 public class DoWorkThreadHelper implements IDoWorkThreadHelper {
 
     private AtomicBoolean exitLoopCount;

@@ -17,7 +17,7 @@ jdbc:
     - id: dataBaseTwo
       pool:
         driverClassName: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://ip:3306/fsdata?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+        url: jdbc:mysql://nacos:3306/fsdata?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
         username: root
         password: root
         initialSize: 5

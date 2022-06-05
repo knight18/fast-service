@@ -87,5 +87,4 @@ public class WorkFlowLogSchedule {
         this.workFlowLogger.setSecondResultEnd();
     }
 
-
 }

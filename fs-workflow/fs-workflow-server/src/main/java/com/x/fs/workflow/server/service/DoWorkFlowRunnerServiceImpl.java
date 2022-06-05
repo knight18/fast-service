@@ -15,22 +15,17 @@ import org.springframework.stereotype.Service;
 @Service("iDoWorkFlowRunner")
 public class DoWorkFlowRunnerServiceImpl implements IDoWorkFlowRunner{
     @Override
-    public WorkFlowRunnerResult runWorkUnit(WorkFlowRunnerParam inputParam) {
+    public WorkFlowRunnerResult runWorkFlow(WorkFlowRunnerParam inputParam) {
         WorkFlowTrackerDto workFlowTracker;
         try {
-            workFlowTracker = WorkFlowTrackerServiceImpl.getWorkUnitTracker().allocWorkUnit(inputParam);
+            workFlowTracker = WorkFlowTrackerServiceImpl.getWorkFlowTracker().allocWorkFlow(inputParam);
         } catch (Exception e){
-            throw new FsServiceException("allocWorkUnit error!" + e.getMessage());
+            throw new FsServiceException("allocWorkFlow error!" + e.getMessage());
         }
-
         if (workFlowTracker == null) {
             return new WorkFlowRunnerResult(-1,null);
         }
-        return WorkFlowTrackerServiceImpl.getWorkUnitTracker().runWorkUnit(workFlowTracker);
-    }
-
-    public WorkFlowRunnerResult runRemoteWorkUnit(WorkFlowRunnerExtParam inputParam) {
-        return WorkFlowTrackerServiceImpl.getWorkUnitTracker().runRemoteWorkUnit(inputParam);
+        return WorkFlowTrackerServiceImpl.getWorkFlowTracker().runWorkFlow(workFlowTracker);
     }
 
 }

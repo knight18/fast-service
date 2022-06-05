@@ -109,18 +109,32 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.x.fs.mbg.model.FsWorkFlowTracker">
+  <insert id="insert" parameterType="com.x.fs.mbg.model.FsWorkFlowTracker" databaseId="mysql">
     insert into fs_work_flow_tracker (WF_GUID, WF_NAME, WF_CREATE_TIME, 
       WF_LEASE_TIME, WF_GRACE_TIME, WF_LEASE_EXPIRY_TIME, 
       WF_LEASE_COUNT, WF_REQUEST_TEXT, WF_STATUS, 
       WF_SIGNAL, WF_PARENT_GUID, WF_FINISH_TIME, 
       WF_FUNCTION)
     values (#{wfGuid,jdbcType=VARCHAR}, #{wfName,jdbcType=VARCHAR}, NOW(),
-      #{wfLeaseTime,jdbcType=BIGINT}, now()+interval #{wuGraceTime,jdbcType=BIGINT} second, #{wfLeaseExpiryTime,jdbcType=TIMESTAMP},
-      #{wfLeaseCount,jdbcType=INTEGER}, #{wfRequestText,jdbcType=VARCHAR}, #{wfStatus,jdbcType=VARCHAR}, 
+      #{wfLeaseTime,jdbcType=BIGINT},#{wfGraceTime,jdbcType=BIGINT}, now()+interval #{wfGraceTime,jdbcType=BIGINT} second,
+      #{wfLeaseCount,jdbcType=INTEGER}, #{wfRequestText,jdbcType=VARCHAR}, #{wfStatus,jdbcType=VARCHAR},
       #{wfSignal,jdbcType=INTEGER}, #{wfParentGuid,jdbcType=VARCHAR}, #{wfFinishTime,jdbcType=TIMESTAMP}, 
       #{wfFunction,jdbcType=VARCHAR})
   </insert>
+
+  <insert id="insert" parameterType="com.x.fs.mbg.model.FsWorkFlowTracker" databaseId="oracle">
+    insert into fs_work_flow_tracker (WF_GUID, WF_NAME, WF_CREATE_TIME,
+                                      WF_LEASE_TIME, WF_GRACE_TIME, WF_LEASE_EXPIRY_TIME,
+                                      WF_LEASE_COUNT, WF_REQUEST_TEXT, WF_STATUS,
+                                      WF_SIGNAL, WF_PARENT_GUID, WF_FINISH_TIME,
+                                      WF_FUNCTION)
+    values (#{wfGuid,jdbcType=VARCHAR}, #{wfName,jdbcType=VARCHAR}, SYSTIMESTAMP,
+            #{wfLeaseTime,jdbcType=BIGINT},#{wuGraceTime,jdbcType=BIGINT}, SYSTIMESTAMP + NUMTODSINTERVAL(#{wuGraceTime,jdbcType=BIGINT} second,
+            #{wfLeaseCount,jdbcType=INTEGER}, #{wfRequestText,jdbcType=VARCHAR}, #{wfStatus,jdbcType=VARCHAR},
+            #{wfSignal,jdbcType=INTEGER}, #{wfParentGuid,jdbcType=VARCHAR}, #{wfFinishTime,jdbcType=TIMESTAMP},
+            #{wfFunction,jdbcType=VARCHAR})
+  </insert>
+
   <insert id="insertSelective" parameterType="com.x.fs.mbg.model.FsWorkFlowTracker">
     insert into fs_work_flow_tracker
     <trim prefix="(" suffix=")" suffixOverrides=",">

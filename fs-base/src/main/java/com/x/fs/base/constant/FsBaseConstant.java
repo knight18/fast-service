@@ -12,4 +12,18 @@ public interface FsBaseConstant {
     String CHARACTER_ENCODE = "UTF-8";
 
 
+    /**
+     * ORACLE厂商标识
+     */
+    String ORACLE = "Oracle";
+    /**
+     * SQL_SERVER厂商标识
+     */
+    String SQL_SERVER = "Microsoft SQL Server";
+    /**
+     * MYSQL厂商标识
+     */
+    String MYSQL = "MySQL";
+
+
 }

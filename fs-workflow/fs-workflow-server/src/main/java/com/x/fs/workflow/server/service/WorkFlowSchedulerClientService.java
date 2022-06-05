@@ -70,7 +70,7 @@ public class WorkFlowSchedulerClientService {
      * @param wfGuid
      * @return 工作单元日志
      */
-    public List<WorkFlowLogScheduleResult> readWorkUnitLogSchedule(String wfGuid, int wfLogId) {
+    public List<WorkFlowLogScheduleResult> readWorkFlowLogSchedule(String wfGuid, int wfLogId) {
         // 首先判断当前工作单元是否已结束，再查进度日志流水
 
         List<FsWorkFlowTracker> trackerList = selectWorkFlowTrackerByUid(wfGuid);
@@ -161,13 +161,13 @@ public class WorkFlowSchedulerClientService {
         }
 
         if (rt.size() <= 0) {
-            // 检查工作单元工作状态
+            // 检查工作流程工作状态
             if (tacker.getWfStatus().equals(WorkFlowConstant.WF_STATUS_BEGIN) ||
                     tacker.getWfStatus().equals(WorkFlowConstant.WF_STATUS_RUNNING)) {
-                // 工作单元未运行或仍在运行，没有查到工作日志记录，则将进度状态设置为运行中。这种状态是不明确的。
+                // 工作流程未运行或仍在运行，没有查到工作日志记录，则将进度状态设置为运行中。这种状态是不明确的。
                 taskStatus = WorkFlowConstant.WF_SCHEDULE_STATUS_RUNNING.toString();
             } else {
-                // 工作单元已经结束了，仍没有查到工作日志记录，则将进度状态设置为失败
+                // 工作流程已经结束了，仍没有查到工作日志记录，则将进度状态设置为失败
                 taskStatus = WorkFlowConstant.WF_SCHEDULE_STATUS_FAILED.toString();
                 errCode = "10000";
                 errMsg = "运行不一致!";

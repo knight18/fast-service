@@ -9,7 +9,7 @@ import com.x.fs.workflow.api.dto.WorkFlowRunnerResult;
  */
 public interface IDoWorkFlowRunner {
 
-    WorkFlowRunnerResult runWorkUnit(WorkFlowRunnerParam inputParam);
+    WorkFlowRunnerResult runWorkFlow(WorkFlowRunnerParam inputParam);
 
 
 }

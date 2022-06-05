@@ -137,6 +137,4 @@ public class WfLogTextInfo {
             e.printStackTrace();
         }
     }
-
-
 }
